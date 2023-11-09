@@ -1,4 +1,4 @@
-package joachim.lejeune.peditrack.model;
+package joachim.lejeune.peditrack.model.person;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
