@@ -1,13 +1,17 @@
 package joachim.lejeune.peditrack;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
+@EnableAutoConfiguration
+@ComponentScan("joachim.lejeune.peditrack.repository")
 public class PeditrackApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PeditrackApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PeditrackApplication.class, args);
+    }
 
 }
