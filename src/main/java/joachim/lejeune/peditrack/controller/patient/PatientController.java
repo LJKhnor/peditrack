@@ -1,4 +1,4 @@
-package joachim.lejeune.peditrack.controller;
+package joachim.lejeune.peditrack.controller.patient;
 
 import joachim.lejeune.peditrack.dto.PatientDto;
 import joachim.lejeune.peditrack.service.PatientService;
