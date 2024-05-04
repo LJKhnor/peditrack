@@ -1,19 +1,19 @@
 version: '3.8'
 services:
-  postgres:
+  peditrack-db:
     image: 'postgres:14.5'
     container_name: pediTrack_postgres
     volumes:
-      - pedi_track_pgdata:/var/lib/postgresql/data
+      - peditrack_pgdata:/var/lib/postgresql/data
     ports:
       - '5435:5432'
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_USER: postgres
-      POSTGRES_DB: pediTrack
-      pull_policy: always
+      POSTGRES_DB: peditrack
+    pull_policy: always
 volumes:
-  pedi_track_pgdata:
+  peditrack_pgdata:
 networks:
   default:
-    name: pedi_track
+    name: peditrack
