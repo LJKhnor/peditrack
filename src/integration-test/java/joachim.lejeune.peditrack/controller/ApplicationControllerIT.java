@@ -7,7 +7,5 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
 public class ApplicationControllerIT extends PeditrackApplicationIT {
-    @Autowired
-    private MockMvc mockMvc;
 
 }
