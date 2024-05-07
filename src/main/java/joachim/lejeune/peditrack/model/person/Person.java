@@ -18,6 +18,22 @@ public class Person {
     private String numTel;
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getNumTel() {
+        return numTel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

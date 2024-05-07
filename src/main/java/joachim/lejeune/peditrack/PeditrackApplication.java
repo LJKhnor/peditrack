@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@EnableAutoConfiguration
-@ComponentScan("joachim.lejeune.peditrack.repository")
 public class PeditrackApplication {
 
     public static void main(String[] args) {
