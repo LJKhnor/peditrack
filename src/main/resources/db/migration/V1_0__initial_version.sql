@@ -1,3 +1,10 @@
+create table if not exists "user"(
+    id int8 not null primary key,
+    name varchar(80) not null,
+    password varchar(80) not null,
+    email varchar(255) unique not null
+);
+
 create table if not exists person(
     id int8 not null primary key,
     name varchar(80) not null,
