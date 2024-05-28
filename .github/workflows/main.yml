@@ -30,5 +30,7 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Set up docker env for testing
+        run: docker-compose up -d
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
