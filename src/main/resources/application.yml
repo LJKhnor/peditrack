@@ -53,4 +53,40 @@ logging:
   level:
     root: INFO
     web: DEBUG
+---
+#################################################################
+#                              DEV                              #
+#################################################################
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: peditrack-dev
+  datasource:
+    hikari:
+      maximum-pool-size: 4
+  jpa:
+    show-sql: true
+
+logging:
+  level:
+    root: trace
+---
+#################################################################
+#                              PROD                             #
+#################################################################
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: peditrack
+  flyway:
+    user: postgres
+    password: postgres
+
+logging:
+  level:
+    root: trace
 
