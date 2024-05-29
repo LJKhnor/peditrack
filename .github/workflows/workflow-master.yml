@@ -6,9 +6,9 @@ name: CI_DEVELOP
 on:
   # Triggers the workflow on push or pull request events but only for the "develop" branch
   push:
-    branches: [ "develop" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "master" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -47,5 +47,5 @@ jobs:
       - name: Deploy on Production
         run: if ${{ github.event.inputs.branch }} = "MASTER"
           then
-            sudo su ssh joachim18@192.168.1.40 -p2222
+          sudo su ssh joachim18@192.168.1.40 -p2222
           fi
