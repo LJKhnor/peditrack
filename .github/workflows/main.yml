@@ -34,3 +34,18 @@ jobs:
         run: docker-compose up -d
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Logging
+        run: |
+          echo "Deploying Branch : ${{ github.event.inputs.branch }}"
+          echo "Deployment Description: ${{ github.event.inputs.description }}"
+          echo "PWD: $(pwd)"
+      - name: Deploy on Production
+        run: if ${{ github.event.inputs.branch }} = "MASTER"
+          then
+            sudo su ssh joachim18@192.168.1.40 -p2222
+          fi
