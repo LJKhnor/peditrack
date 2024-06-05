@@ -45,7 +45,5 @@ jobs:
           echo "Deployment Description: ${{ github.event.inputs.description }}"
           echo "PWD: $(pwd)"
       - name: Deploy on Production
-        run: if ${{ github.event.inputs.branch }} = "MASTER"
-          then
-          sudo su ssh joachim18@192.168.1.40 -p2222
-          fi
+        run: |
+          ssh joachim18@192.168.1.40
