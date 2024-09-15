@@ -1,2 +1,3 @@
-truncate person restart identity cascade;
-truncate patient restart identity cascade;
+truncate table "user" cascade;
+truncate table person cascade;
+truncate table patient cascade;

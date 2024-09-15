@@ -1,6 +1,5 @@
 package joachim.lejeune.peditrack.controller.user;
 
-import jakarta.validation.Valid;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.dto.UserDto;
 import joachim.lejeune.peditrack.dto.factory.UserDtoFactory;
@@ -9,9 +8,11 @@ import joachim.lejeune.peditrack.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://127.0.0.1:5000", maxAge = 3600)
 @RestController
@@ -25,14 +26,40 @@ public class UserController {
         this.userDtoFactory = userDtoFactory;
     }
 
+    /**
+     * Get all the user
+     * @return a list of user
+     */
+    @GetMapping("/user/all")
+    public ResponseEntity<List<UserDto>> getUsers() {
+        LOG.trace("Enter getUsers method");
+        List<User> users = userService.findAllUser();
+        return new ResponseEntity<>(users.stream()
+                .map(user -> userDtoFactory.convert(user))
+                .collect(Collectors.toList()), HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Verify if the user already exist
+     * @param email    of the user
+     * @param username of the user
+     * @return boolean
+     */
     @GetMapping("/users/exist")
     public boolean userAlreadyExist(@RequestParam(value = "email") String email, @RequestParam(value = "username") String username) {
         LOG.trace("Enter method userAlreadyExist");
 
         return userService.findIfUserAlreadyExist(email, username);
     }
+
+    /**
+     * create a new user
+     *
+     * @param userBodyDto that provide info for the new user
+     * @return the response that contain the new user
+     */
     @PostMapping("/user")
-    public ResponseEntity<UserDto> createUser(@Valid UserBodyDto userBodyDto){
+    public ResponseEntity<UserDto> createUser(@RequestBody UserBodyDto userBodyDto) throws Exception {
         LOG.info("Enter method createUser");
         User user = userService.createUser(userBodyDto);
         return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.CREATED);

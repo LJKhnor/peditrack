@@ -3,7 +3,7 @@ package joachim.lejeune.peditrack.model.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "")
+@Table(name = "user", schema = "public")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

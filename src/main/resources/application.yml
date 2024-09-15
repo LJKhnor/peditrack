@@ -53,6 +53,7 @@ logging:
   level:
     root: INFO
     web: DEBUG
+    hibernate: trace
 ---
 #################################################################
 #                              DEV                              #

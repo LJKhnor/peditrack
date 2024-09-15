@@ -1,5 +1,6 @@
 package joachim.lejeune.peditrack.controller.user;
 
+import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,5 +41,14 @@ public class UserControllerIT extends ApplicationControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(false)))
         ;
+    }
+
+    @Test
+    void createUser() throws Exception {
+        UserBodyDto userBodyDto = new UserBodyDto("jojo", "123", "jojo@test.be");
+        this.mockMvc.perform(post("/user")
+                        .contentType("application/json")
+                        .content(objectMapper().writeValueAsString(userBodyDto)))
+                .andExpect(status().isOk());
     }
 }

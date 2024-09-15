@@ -1,27 +1,85 @@
 package joachim.lejeune.peditrack.service;
 
-import joachim.lejeune.peditrack.dto.PatientDto;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+/**
+ * Service class for handling business logic related to Patient operations.
+ */
 @Service
 public class PatientService {
+
     @Autowired
-    private final PatientRepository patientRepository;
+    private PatientRepository patientRepository;
 
-    public PatientService(PatientRepository patientRepository) {
-        this.patientRepository = patientRepository;
+    /**
+     * Creates a new patient in the system.
+     *
+     * @param patient The patient entity to create.
+     * @return The saved patient entity.
+     */
+    public Patient createPatient(Patient patient) {
+        return patientRepository.save(patient);
     }
 
-    public Patient findOnePatientById(Long id) {
-        return patientRepository.findOnePatientById(id);
-    }
-
-    public List<Patient> findAll() {
+    /**
+     * Retrieves all patients from the system.
+     *
+     * @return A list of all patients.
+     */
+    public List<Patient> getAllPatients() {
         return patientRepository.findAll();
     }
+
+    /**
+     * Retrieves a patient by their ID.
+     *
+     * @param id The ID of the patient to retrieve.
+     * @return An Optional containing the patient if found, or empty if not found.
+     */
+    public Optional<Patient> getPatientById(Long id) {
+        return patientRepository.findById(id);
+    }
+
+    /**
+     * Updates an existing patient's details.
+     *
+     * @param id The ID of the patient to update.
+     * @param updatedPatient The patient entity containing the updated data.
+     * @return The updated patient entity.
+     * @throws RuntimeException If no patient with the given ID is found.
+     */
+    public Patient updatePatient(Long id, Patient updatedPatient) {
+        return patientRepository.findById(id)
+                .map(patient -> {
+                    patient.setName(updatedPatient.getName());
+                    patient.setFirstName(updatedPatient.getFirstName());
+                    patient.setNumTel(updatedPatient.getNumTel());
+                    patient.setBirthdate(updatedPatient.getBirthdate());
+                    patient.setPersonOfContact(updatedPatient.getPersonOfContact());
+                    patient.setReferenceBy(updatedPatient.getReferenceBy());
+                    patient.setDoctorId(updatedPatient.getDoctorId());
+                    return patientRepository.save(patient);
+                }).orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
+    }
+
+    /**
+     * Deletes a patient from the system by their ID.
+     *
+     * @param id The ID of the patient to delete.
+     * @throws RuntimeException If no patient with the given ID is found.
+     */
+    public void deletePatient(Long id) {
+        if (patientRepository.existsById(id)) {
+            patientRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Patient not found with id " + id);
+        }
+    }
 }
+
