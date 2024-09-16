@@ -34,6 +34,18 @@ public class Person {
         return numTel;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setNumTel(String numTel) {
+        this.numTel = numTel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
