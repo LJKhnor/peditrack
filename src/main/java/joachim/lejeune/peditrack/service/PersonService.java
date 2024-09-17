@@ -18,35 +18,6 @@ public class PersonService {
     private PersonRepository personRepository;
 
     /**
-     * Creates a new person in the system.
-     *
-     * @param person The person entity to create.
-     * @return The saved person entity.
-     */
-    public Person createPerson(Person person) {
-        return personRepository.save(person);
-    }
-
-    /**
-     * Retrieves all persons from the system.
-     *
-     * @return A list of all persons.
-     */
-    public List<Person> getAllPersons() {
-        return personRepository.findAll();
-    }
-
-    /**
-     * Retrieves a person by their ID.
-     *
-     * @param id The ID of the person to retrieve.
-     * @return An Optional containing the person if found, or empty if not found.
-     */
-    public Optional<Person> getPersonById(Long id) {
-        return personRepository.findById(id);
-    }
-
-    /**
      * Updates an existing person's details.
      *
      * @param id The ID of the person to update.
@@ -70,11 +41,37 @@ public class PersonService {
      * @param id The ID of the person to delete.
      * @throws RuntimeException If no person with the given ID is found.
      */
-    public void deletePerson(Long id) {
+    public void delete(Long id) {
         if (personRepository.existsById(id)) {
             personRepository.deleteById(id);
         } else {
             throw new RuntimeException("Person not found with id " + id);
         }
+    }
+    /**
+     * Creates a new person in the system.
+     *
+     * @param person The person entity to create.
+     * @return The saved person entity.
+     */
+    public Person save(Person person) {
+        return personRepository.save(person);
+    }
+    /**
+     * Retrieves all persons from the system.
+     *
+     * @return A list of all persons.
+     */
+    public List<Person> findAll() {
+        return personRepository.findAll();
+    }
+    /**
+     * Retrieves a person by their ID.
+     *
+     * @param id The ID of the person to retrieve.
+     * @return An Optional containing the person if found, or empty if not found.
+     */
+    public Optional<Person> findById(Long id) {
+        return personRepository.findById(id);
     }
 }

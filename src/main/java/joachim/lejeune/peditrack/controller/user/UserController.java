@@ -30,7 +30,7 @@ public class UserController {
      * Get all the user
      * @return a list of user
      */
-    @GetMapping("/user/all")
+    @GetMapping("/users/all")
     public ResponseEntity<List<UserDto>> getUsers() {
         LOG.trace("Enter getUsers method");
         List<User> users = userService.findAllUser();

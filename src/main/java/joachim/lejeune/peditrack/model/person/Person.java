@@ -3,16 +3,18 @@ package joachim.lejeune.peditrack.model.person;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.Objects;
 
 @Entity
+@Table(name = "person")
 public class Person {
     @Id
     private Long id;
     @Column(name = "name")
     private String name;
-    @Column(name="first_name")
+    @Column(name="firstname")
     private String firstName;
     @Column(name="num_tel")
     private String numTel;

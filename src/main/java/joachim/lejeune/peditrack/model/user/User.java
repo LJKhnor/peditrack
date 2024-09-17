@@ -10,6 +10,8 @@ public class User {
     private Long id;
     @Column(name = "name")
     private String name;
+    @Column(name = "firstname")
+    private String firstName;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
@@ -29,6 +31,14 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public void setId(Long id) {
