@@ -1,5 +1,6 @@
 package joachim.lejeune.peditrack.service;
 
+import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,16 +55,17 @@ public class PatientService {
      * @return The updated patient entity.
      * @throws RuntimeException If no patient with the given ID is found.
      */
-    public Patient updatePatient(Long id, Patient updatedPatient) {
+    public Patient updatePatient(Long id, PatientBodyDto updatedPatient) {
         return patientRepository.findById(id)
                 .map(patient -> {
                     patient.setName(updatedPatient.getName());
-                    patient.setFirstName(updatedPatient.getFirstName());
-                    patient.setNumTel(updatedPatient.getNumTel());
-                    patient.setBirthdate(updatedPatient.getBirthdate());
-                    patient.setPersonOfContact(updatedPatient.getPersonOfContact());
-                    patient.setReferenceBy(updatedPatient.getReferenceBy());
-                    patient.setDoctorId(updatedPatient.getDoctorId());
+                    patient.setFirstName(updatedPatient.getFirstname());
+                    updatedPatient.getNumTel().ifPresent(patient::setNumTel);
+                    updatedPatient.getBirthdate().ifPresent(patient::setBirthdate);
+                    updatedPatient.getPersonOfcontact().ifPresent(patient::setPersonOfContact);
+                    updatedPatient.getReferenceBy().ifPresent(patient::setReferenceBy);
+                    updatedPatient.getDoctor().ifPresent(patient::setDoctor);
+
                     return patientRepository.save(patient);
                 }).orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
     }

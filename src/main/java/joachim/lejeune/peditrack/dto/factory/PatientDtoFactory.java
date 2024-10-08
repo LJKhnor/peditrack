@@ -12,12 +12,10 @@ public class PatientDtoFactory {
     public PatientDto convert(Patient patient) {
         PatientDto dto = new PatientDto();
         dto.setId(patient.getId());
-        dto.setBirthdate(patient.getBirthdate());
         dto.setName(patient.getName());
-        dto.setNumTel(patient.getNumTel());
-        dto.setFirstName(patient.getFirstName());
-        dto.setDoctorId(patient.getDoctorId());
-        dto.setPersonOfContact(patient.getPersonOfContact());
+        dto.setFirstname(patient.getFirstName());
+        dto.setPhoneNum(patient.getNumTel());
+        dto.setBirthdate(patient.getBirthdate());
         return dto;
     }
 }

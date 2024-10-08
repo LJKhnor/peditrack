@@ -3,7 +3,9 @@ package joachim.lejeune.peditrack.model.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "public")
+@Table(name = "user", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,9 +14,9 @@ public class User {
     private String name;
     @Column(name = "firstname")
     private String firstName;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     public Long getId() {
