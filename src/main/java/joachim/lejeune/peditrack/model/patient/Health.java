@@ -1,9 +1,11 @@
 package joachim.lejeune.peditrack.model.patient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import joachim.lejeune.peditrack.model.enums.*;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "Health",
@@ -19,67 +21,64 @@ public class Health {
 
     @ManyToOne
     @JoinColumn(name = "id_patient", nullable = false)
+    @JsonBackReference
     private Patient patient;
 
-    @Column(name = "health_group")
-    private int health_group;
-    @Column(name = "diabetes")
-    private int diabetes;
+    @Column(name = "group_type")
+    private GroupType groupType;
+    @Column(name = "diabete_type")
+    private DiabeteType diabeteType;
     @Column(name = "date_consultation")
-    private Date date_consultation;
+    private Date dateConsultation;
 
-    @Column(name = "is_with_heart_problems")
-    private boolean is_with_heart_problems;
+    @Column(name = "is_with_heart_disorder")
+    private boolean isWithHeartDisorder;
     @Column(name = "is_with_bleeding_disorder")
-    private boolean is_with_bleeding_disorder;
+    private boolean isWithBleedingDisorder;
     @Column(name = "is_with_thyroid_disorder")
-    private boolean is_with_thyroid_disorder;
-    @Column(name = "has_knee_prothesis")
-    private boolean has_knee_prothesis;
-    @Column(name = "has_hip_prothesis")
-    private boolean has_hip_prothesis;
+    private boolean isWithThyroidDisorder;
+    @Column(name = "has_hip_or_knee_prothesis")
+    private boolean hasHipOrKneeProthesis;
     @Column(name = "has_recent_diseases")
-    private boolean has_recent_diseases;
+    private boolean hasRecentDiseases;
     @Column(name = "has_recent_operation")
-    private boolean has_recent_operation;
+    private boolean hasRecentOperation;
 
-    @ElementCollection
     @Column(name = "allergies")
-    private List<String> allergies;
+    private String allergies;
 
-    @ElementCollection
-    @Column(name = "medicines")
-    private List<String> medicines;
+    @Column(name = "drugs")
+    private String drugs;
 
     @Column(name = "skin")
-    private String skin;
+    private SkinType skinType;
     @Column(name = "feet")
-    private String feet;
+    private FootType footType;
     @Column(name = "sweating")
-    private String sweating;
+    private SweatType sweatType;
     @Column(name = "footnotes")
-    private String footnotes;
+    private RemarkType remarkType;
     @Column(name = "circulation")
-    private String circulation;
+    private CirculationType circulationType;
     @Column(name = "dermatosis")
-    private String dermatosis;
+    private DermatosisType dermatosisType;
     @Column(name = "foot_deformity")
-    private String foot_deformity;
+    private FootDeformityType footDeformityType;
     @Column(name = "nail_disease")
-    private String nail_disease;
+    private NailConditionType nailConditionType;
     @Column(name = "shoes_condition")
-    private String shoes_condition;
+    private String shoesCondition;
 
     @Column(name = "cares")
-    private String cares;
+    private OffsetDateTime careDate;
     @Column(name = "products_used")
-    private String products_used;
+    private String productsUsed;
     @Column(name = "materials_used")
-    private String materials_used;
+    private String materialsUsed;
     @Column(name = "possible_injuries")
-    private String possible_injuries;
+    private String possibleInjuries;
     @Column(name = "advice_given")
-    private String advice_given;
+    private String advice;
 
     public Long getId() {
         return id;
@@ -97,211 +96,203 @@ public class Health {
         this.patient = patient;
     }
 
-    public int getHealth_group() {
-        return health_group;
+    public GroupType getGroupType() {
+        return groupType;
     }
 
-    public void setHealth_group(int health_group) {
-        this.health_group = health_group;
+    public void setGroupType(GroupType groupType) {
+        this.groupType = groupType;
     }
 
-    public int getDiabetes() {
-        return diabetes;
+    public DiabeteType getDiabeteType() {
+        return diabeteType;
     }
 
-    public void setDiabetes(int diabetes) {
-        this.diabetes = diabetes;
+    public void setDiabeteType(DiabeteType diabeteType) {
+        this.diabeteType = diabeteType;
     }
 
-    public Date getDate_consultation() {
-        return date_consultation;
+    public Date getDateConsultation() {
+        return dateConsultation;
     }
 
-    public void setDate_consultation(Date date_consultation) {
-        this.date_consultation = date_consultation;
+    public void setDateConsultation(Date dateConsultation) {
+        this.dateConsultation = dateConsultation;
     }
 
-    public boolean isIs_with_heart_problems() {
-        return is_with_heart_problems;
+    public boolean isWithHeartDisorder() {
+        return isWithHeartDisorder;
     }
 
-    public void setIs_with_heart_problems(boolean is_with_heart_problems) {
-        this.is_with_heart_problems = is_with_heart_problems;
+    public void setWithHeartDisorder(boolean withHeartDisorder) {
+        isWithHeartDisorder = withHeartDisorder;
     }
 
-    public boolean isIs_with_bleeding_disorder() {
-        return is_with_bleeding_disorder;
+    public boolean isWithBleedingDisorder() {
+        return isWithBleedingDisorder;
     }
 
-    public void setIs_with_bleeding_disorder(boolean is_with_bleeding_disorder) {
-        this.is_with_bleeding_disorder = is_with_bleeding_disorder;
+    public void setWithBleedingDisorder(boolean withBleedingDisorder) {
+        isWithBleedingDisorder = withBleedingDisorder;
     }
 
-    public boolean isIs_with_thyroid_disorder() {
-        return is_with_thyroid_disorder;
+    public boolean isWithThyroidDisorder() {
+        return isWithThyroidDisorder;
     }
 
-    public void setIs_with_thyroid_disorder(boolean is_with_thyroid_disorder) {
-        this.is_with_thyroid_disorder = is_with_thyroid_disorder;
+    public void setWithThyroidDisorder(boolean withThyroidDisorder) {
+        isWithThyroidDisorder = withThyroidDisorder;
     }
 
-    public boolean isHas_knee_prothesis() {
-        return has_knee_prothesis;
+    public boolean isHasHipOrKneeProthesis() {
+        return hasHipOrKneeProthesis;
     }
 
-    public void setHas_knee_prothesis(boolean has_knee_prothesis) {
-        this.has_knee_prothesis = has_knee_prothesis;
+    public void setHasHipOrKneeProthesis(boolean hasHipOrKneeProthesis) {
+        this.hasHipOrKneeProthesis = hasHipOrKneeProthesis;
     }
 
-    public boolean isHas_hip_prothesis() {
-        return has_hip_prothesis;
+    public boolean isHasRecentDiseases() {
+        return hasRecentDiseases;
     }
 
-    public void setHas_hip_prothesis(boolean has_hip_prothesis) {
-        this.has_hip_prothesis = has_hip_prothesis;
+    public void setHasRecentDiseases(boolean hasRecentDiseases) {
+        this.hasRecentDiseases = hasRecentDiseases;
     }
 
-    public boolean isHas_recent_diseases() {
-        return has_recent_diseases;
+    public boolean isHasRecentOperation() {
+        return hasRecentOperation;
     }
 
-    public void setHas_recent_diseases(boolean has_recent_diseases) {
-        this.has_recent_diseases = has_recent_diseases;
+    public void setHasRecentOperation(boolean hasRecentOperation) {
+        this.hasRecentOperation = hasRecentOperation;
     }
 
-    public boolean isHas_recent_operation() {
-        return has_recent_operation;
-    }
-
-    public void setHas_recent_operation(boolean has_recent_operation) {
-        this.has_recent_operation = has_recent_operation;
-    }
-
-    public List<String> getAllergies() {
+    public String getAllergies() {
         return allergies;
     }
 
-    public void setAllergies(List<String> allergies) {
+    public void setAllergies(String allergies) {
         this.allergies = allergies;
     }
 
-    public List<String> getMedicines() {
-        return medicines;
+    public String getDrugs() {
+        return drugs;
     }
 
-    public void setMedicines(List<String> medicines) {
-        this.medicines = medicines;
+    public void setDrugs(String drugs) {
+        this.drugs = drugs;
     }
 
-    public String getSkin() {
-        return skin;
+    public SkinType getSkinType() {
+        return skinType;
     }
 
-    public void setSkin(String skin) {
-        this.skin = skin;
+    public void setSkinType(SkinType skinType) {
+        this.skinType = skinType;
     }
 
-    public String getFeet() {
-        return feet;
+    public FootType getFootType() {
+        return footType;
     }
 
-    public void setFeet(String feet) {
-        this.feet = feet;
+    public void setFootType(FootType footType) {
+        this.footType = footType;
     }
 
-    public String getSweating() {
-        return sweating;
+    public SweatType getSweatType() {
+        return sweatType;
     }
 
-    public void setSweating(String sweating) {
-        this.sweating = sweating;
+    public void setSweatType(SweatType sweatType) {
+        this.sweatType = sweatType;
     }
 
-    public String getFootnotes() {
-        return footnotes;
+    public RemarkType getRemarkType() {
+        return remarkType;
     }
 
-    public void setFootnotes(String footnotes) {
-        this.footnotes = footnotes;
+    public void setRemarkType(RemarkType remarkType) {
+        this.remarkType = remarkType;
     }
 
-    public String getCirculation() {
-        return circulation;
+    public CirculationType getCirculationType() {
+        return circulationType;
     }
 
-    public void setCirculation(String circulation) {
-        this.circulation = circulation;
+    public void setCirculationType(CirculationType circulationType) {
+        this.circulationType = circulationType;
     }
 
-    public String getDermatosis() {
-        return dermatosis;
+    public DermatosisType getDermatosisType() {
+        return dermatosisType;
     }
 
-    public void setDermatosis(String dermatosis) {
-        this.dermatosis = dermatosis;
+    public void setDermatosisType(DermatosisType dermatosisType) {
+        this.dermatosisType = dermatosisType;
     }
 
-    public String getFoot_deformity() {
-        return foot_deformity;
+    public FootDeformityType getFootDeformityType() {
+        return footDeformityType;
     }
 
-    public void setFoot_deformity(String foot_deformity) {
-        this.foot_deformity = foot_deformity;
+    public void setFootDeformityType(FootDeformityType footDeformityType) {
+        this.footDeformityType = footDeformityType;
     }
 
-    public String getNail_disease() {
-        return nail_disease;
+    public NailConditionType getNailConditionType() {
+        return nailConditionType;
     }
 
-    public void setNail_disease(String nail_disease) {
-        this.nail_disease = nail_disease;
+    public void setNailConditionType(NailConditionType nailConditionType) {
+        this.nailConditionType = nailConditionType;
     }
 
-    public String getShoes_condition() {
-        return shoes_condition;
+    public String getShoesCondition() {
+        return shoesCondition;
     }
 
-    public void setShoes_condition(String shoes_condition) {
-        this.shoes_condition = shoes_condition;
+    public void setShoesCondition(String shoesCondition) {
+        this.shoesCondition = shoesCondition;
     }
 
-    public String getCares() {
-        return cares;
+    public OffsetDateTime getCareDate() {
+        return careDate;
     }
 
-    public void setCares(String cares) {
-        this.cares = cares;
+    public void setCareDate(OffsetDateTime careDate) {
+        this.careDate = careDate;
     }
 
-    public String getProducts_used() {
-        return products_used;
+    public String getProductsUsed() {
+        return productsUsed;
     }
 
-    public void setProducts_used(String products_used) {
-        this.products_used = products_used;
+    public void setProductsUsed(String productsUsed) {
+        this.productsUsed = productsUsed;
     }
 
-    public String getMaterials_used() {
-        return materials_used;
+    public String getMaterialsUsed() {
+        return materialsUsed;
     }
 
-    public void setMaterials_used(String materials_used) {
-        this.materials_used = materials_used;
+    public void setMaterialsUsed(String materialsUsed) {
+        this.materialsUsed = materialsUsed;
     }
 
-    public String getPossible_injuries() {
-        return possible_injuries;
+    public String getPossibleInjuries() {
+        return possibleInjuries;
     }
 
-    public void setPossible_injuries(String possible_injuries) {
-        this.possible_injuries = possible_injuries;
+    public void setPossibleInjuries(String possibleInjuries) {
+        this.possibleInjuries = possibleInjuries;
     }
 
-    public String getAdvice_given() {
-        return advice_given;
+    public String getAdvice() {
+        return advice;
     }
 
-    public void setAdvice_given(String advice_given) {
-        this.advice_given = advice_given;
+    public void setAdvice(String advice) {
+        this.advice = advice;
     }
 }

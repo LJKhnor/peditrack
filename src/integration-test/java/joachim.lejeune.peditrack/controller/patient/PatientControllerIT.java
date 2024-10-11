@@ -42,13 +42,9 @@ class PatientControllerIT extends ApplicationControllerIT {
 
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("lejeune")))
-                .andExpect(jsonPath("$[0].firstName", is("joachim")))
-                .andExpect(jsonPath("$[0].personOfContact.id", is(2)))
-                .andExpect(jsonPath("$[0].personOfContact.name", is("lizen")))
-                .andExpect(jsonPath("$[0].personOfContact.firstName", is("valériane")))
-                .andExpect(jsonPath("$[0].doctorId.id", is(3)))
-                .andExpect(jsonPath("$[0].doctorId.name", is("smeets")))
-                .andExpect(jsonPath("$[0].doctorId.firstName", is("morgane")))
+                .andExpect(jsonPath("$[0].firstname", is("joachim")))
+                .andExpect(jsonPath("$[0].personOfContact", is("lizen valériane")))
+                .andExpect(jsonPath("$[0].doctor", is("Smeets Morgane")))
         ;
     }
 
@@ -60,13 +56,9 @@ class PatientControllerIT extends ApplicationControllerIT {
 
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("lejeune")))
-                .andExpect(jsonPath("$.firstName", is("joachim")))
-                .andExpect(jsonPath("$.personOfContact.id", is(2)))
-                .andExpect(jsonPath("$.personOfContact.name", is("lizen")))
-                .andExpect(jsonPath("$.personOfContact.firstName", is("valériane")))
-                .andExpect(jsonPath("$.doctorId.id", is(3)))
-                .andExpect(jsonPath("$.doctorId.name", is("smeets")))
-                .andExpect(jsonPath("$.doctorId.firstName", is("morgane")))
+                .andExpect(jsonPath("$.firstname", is("joachim")))
+                .andExpect(jsonPath("$.personOfContact", is("lizen valériane")))
+                .andExpect(jsonPath("$.doctor", is("Smeets Morgane")))
         ;
     }
 }

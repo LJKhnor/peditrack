@@ -1,19 +1,15 @@
 package joachim.lejeune.peditrack.model.patient;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Patient",
         indexes = {
-                @Index(name = "idx_patient_name", columnList = "name"),
-                @Index(name = "idx_patient_firstname", columnList = "firstname"),
-                @Index(name = "idx_patient_city", columnList = "city")
-        },
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "mail"),
-                @UniqueConstraint(columnNames = "num_tel")
+                @Index(name = "idx_patient_id", columnList = "id")
         }
 )
 public class Patient {
@@ -28,17 +24,19 @@ public class Patient {
     private String firstName;
 
     @Column(name = "num_tel")
-    private String numTel;
+    private String phoneNum;
 
     @Column(name = "birthdate")
     private OffsetDateTime birthdate;
+
+    @Column(name = "mail")
+    private String email;
 
     @Column(name = "person_of_contact")
     private String personOfContact;
 
     @Column(name = "person_of_contact_phone_number")
     private String personOfContactPhoneNumber;
-    private String mail;
 
     @Column(name = "referenced_by")
     private String referenceBy;
@@ -57,6 +55,18 @@ public class Patient {
     private String city;
     @Column(name = "mutual")
     private String mutual;
+    // Relation OneToMany avec Health
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Health> healthRecords;
+
+    public List<Health> getHealthRecords() {
+        return healthRecords;
+    }
+
+    public void setHealthRecords(List<Health> healthRecords) {
+        this.healthRecords = healthRecords;
+    }
 
     public Long getId() {
         return id;
@@ -82,12 +92,12 @@ public class Patient {
         this.firstName = firstName;
     }
 
-    public String getNumTel() {
-        return numTel;
+    public String getPhoneNum() {
+        return phoneNum;
     }
 
-    public void setNumTel(String numTel) {
-        this.numTel = numTel;
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
     }
 
     public OffsetDateTime getBirthdate() {
@@ -114,12 +124,12 @@ public class Patient {
         this.personOfContactPhoneNumber = personOfContactPhoneNumber;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getReferenceBy() {
@@ -184,5 +194,9 @@ public class Patient {
 
     public void setMutual(String mutual) {
         this.mutual = mutual;
+    }
+
+    public void addHealthRecord(Health health) {
+        this.healthRecords.add(health);
     }
 }

@@ -22,18 +22,18 @@ CREATE UNIQUE INDEX idx_patient_id on patient(id);
 -- Table : Health
 CREATE TABLE IF NOT EXISTS health (
     id SERIAL PRIMARY KEY,
-    health_group INT CHECK (health_group IN (0, 1, 2, 3)),
-    diabetes INT CHECK (diabetes IN (1, 2)),
+    id_patient INT,
+    group_type VARCHAR(50) ,
+    diabete_type VARCHAR(50) ,
     date_consultation DATE DEFAULT CURRENT_DATE,
-    is_with_heart_problems BOOLEAN,
+    is_with_heart_disorder BOOLEAN,
     is_with_bleeding_disorder BOOLEAN,
     is_with_thyroid_disorder BOOLEAN,
-    has_knee_prothesis BOOLEAN,
-    has_hip_prothesis BOOLEAN,
+    has_hip_or_knee_prothesis BOOLEAN,
     has_recent_diseases BOOLEAN,
     has_recent_operation BOOLEAN,
-    allergies TEXT[],
-    medicines TEXT[],
+    allergies TEXT,
+    drugs TEXT,
     skin TEXT,
     feet TEXT,
     sweating TEXT,
@@ -48,11 +48,8 @@ CREATE TABLE IF NOT EXISTS health (
     materials_used TEXT,
     possible_injuries TEXT,
     advice_given TEXT,
-    id_patient INT,
     FOREIGN KEY (id_patient) REFERENCES Patient(id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX idx_health_patient on health(id_patient);
-CREATE UNIQUE INDEX idx_health_date on health(date_consultation);
 
 -- Table: User
 CREATE TABLE IF NOT EXISTS "user" (
