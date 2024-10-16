@@ -1,6 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum FootType {
+    NONE(0, null, "Auncun problème"),
     HOLLOW(1, "Creux", "Pied avec une arche très élevée."),
     FLAT(2, "Plat", "Pied avec une arche basse ou inexistante."),
     GREEK(3, "Grec", "Deuxième orteil plus long que le gros orteil."),
@@ -38,4 +39,23 @@ public enum FootType {
         }
         throw new IllegalArgumentException("Foot type not found for ID: " + id);
     }
+
+    public static FootType valueForCode(String footType) {
+        for (FootType type : FootType.values()) {
+            if(type.getLabel() != null){
+                if (type.getLabel().equalsIgnoreCase(footType)) {
+                    return type;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Foot type not found for label: " + footType);
+    }
+//    public static String codeForValue(FootType footType){
+//        for(FootType type: FootType.values()){
+//            if(type == footType){
+//                return type.getLabel();
+//            }
+//        }
+//        throw new IllegalArgumentException(("Invalid foot type enum : " + footType));
+//    }
 }

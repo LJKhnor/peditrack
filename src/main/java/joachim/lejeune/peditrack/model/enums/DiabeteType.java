@@ -14,4 +14,13 @@ public enum DiabeteType {
     public int getValue() {
         return value;
     }
+
+    public static DiabeteType valueForCode(int id) {
+        for (DiabeteType type : DiabeteType.values()) {
+            if (type.getValue() == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid DiabeteType id: " + id);
+    }
 }

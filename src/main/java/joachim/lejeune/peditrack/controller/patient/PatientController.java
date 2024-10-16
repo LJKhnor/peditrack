@@ -1,7 +1,10 @@
 package joachim.lejeune.peditrack.controller.patient;
 
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
+import joachim.lejeune.peditrack.dto.HealthDto;
 import joachim.lejeune.peditrack.dto.PatientDto;
+import joachim.lejeune.peditrack.dto.PatientRecordDto;
+import joachim.lejeune.peditrack.dto.factory.HealthDtoFactory;
 import joachim.lejeune.peditrack.dto.factory.PatientDtoFactory;
 import joachim.lejeune.peditrack.exceptions.PatientNotFoundException;
 import joachim.lejeune.peditrack.model.patient.Health;
@@ -15,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -24,11 +28,13 @@ public class PatientController {
     private final PatientService patientService;
     private final HealthService healthService;
     private final PatientDtoFactory patientDtoFactory;
+    private final HealthDtoFactory healthDtoFactory;
 
-    public PatientController(PatientService patientService, HealthService healthService, PatientDtoFactory patientDtoFactory) {
+    public PatientController(PatientService patientService, HealthService healthService, PatientDtoFactory patientDtoFactory, HealthDtoFactory healthDtoFactory) {
         this.patientService = patientService;
         this.healthService = healthService;
         this.patientDtoFactory = patientDtoFactory;
+        this.healthDtoFactory = healthDtoFactory;
     }
 
     @GetMapping("/patients")
@@ -43,12 +49,16 @@ public class PatientController {
     }
 
     @GetMapping("/patients/{patientId}")
-    public ResponseEntity<PatientDto> getPatient(@PathVariable(value = "patientId") Long patientId) throws PatientNotFoundException {
+    public ResponseEntity<PatientRecordDto> getPatient(@PathVariable(value = "patientId") Long patientId) throws PatientNotFoundException {
         LOG.info("Enter method getPatient");
 
-        return patientService.getPatientById(patientId)
-                .map(patient -> new ResponseEntity<>(patientDtoFactory.convert(patient), HttpStatus.OK))
-                .orElseThrow(() -> new PatientNotFoundException("No patient found for id" + patientId));
+        Patient patient = patientService.getPatientById(patientId);
+        Health lastHealth = patient.getLastHealth();
+        PatientRecordDto patientRecordDto = new PatientRecordDto();
+        patientRecordDto.setPatientDto(patientDtoFactory.convert(patient));
+        patientRecordDto.setHealthDto(healthDtoFactory.convert(lastHealth));
+
+        return new ResponseEntity<>(patientRecordDto, HttpStatus.OK);
     }
 
     @PostMapping("/patients")
@@ -59,29 +69,31 @@ public class PatientController {
 
         // Appel au service pour créer le patient en db
         Patient newPatient = patientService.createPatient(patientBodyDto);
+        PatientDto patientDto = patientDtoFactory.convert(newPatient);
         Health newHealth = healthService.createNewHealth(newPatient, patientBodyDto);
 
-        // Retourner une réponse avec le statut 201 (Created) et le patient créé
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(patientDto,HttpStatus.CREATED);
     }
 
     @PutMapping("/patients/{patientId}")
     public ResponseEntity<PatientDto> updatePatient(
             @PathVariable(value = "patientId") Long patientId,
-            @RequestBody PatientBodyDto patientBodyDto) throws PatientNotFoundException {
+            @RequestBody PatientBodyDto patientBodyDto) {
 
         LOG.info("Enter method updatePatient");
 
         // Sauvegarder les modifications via le service
         Patient updatedPatient = patientService.updatePatient(patientId, patientBodyDto);
-
+        LOG.info("Patient inofs update for patient :", updatedPatient);
         Health health = healthService.createNewHealth(updatedPatient, patientBodyDto);
+        LOG.info("New health created : ", health);
         updatedPatient.addHealthRecord(health);
+        LOG.info("Health add to list of healths to patient : ", updatedPatient.getId());
 
         // Conversion du patient mis à jour en DTO pour la réponse
         PatientDto responseDto = patientDtoFactory.convert(updatedPatient);
 
         // Retourner une réponse avec le statut 200 (OK) et le patient mis à jour
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        return new ResponseEntity<>(responseDto,HttpStatus.OK);
     }
 }

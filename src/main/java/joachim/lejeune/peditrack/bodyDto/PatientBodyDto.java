@@ -1,17 +1,23 @@
 package joachim.lejeune.peditrack.bodyDto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import joachim.lejeune.peditrack.model.enums.*;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.Optional;
 
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PatientBodyDto {
     // informations personnelles
     private String name;
     private String firstname;
     private String phoneNum;
-    private OffsetDateTime birthdate;
+    private String birthdate;
     private String address;
     private String email;
     private String personOfContact;
@@ -21,7 +27,9 @@ public class PatientBodyDto {
     private String mutual;
     private String comments;
     // informations médicales
+    @JsonProperty("groupType")
     private GroupType groupType;
+    @JsonProperty("diabeteType")
     private DiabeteType diabeteType;
     private Date dateConsultation;
     private boolean isWithHeartDisorder;
@@ -32,15 +40,24 @@ public class PatientBodyDto {
     private boolean hasRecentOperation;
     private String allergies;
     private String drugs;
-    private SkinType skinType;
+
+    private String skinType;
+//    @JsonProperty("footType")
     private FootType footType;
-    private SweatType sweatType;
-    private RemarkType remarkType;
-    private CirculationType circulationType;
-    private DermatosisType dermatosisType;
-    private FootDeformityType footDeformityType;
-    private NailConditionType nailConditionType;
+//    @JsonProperty("sweatType")
+//    private SweatType sweatType;
+//    @JsonProperty("remarkType")
+//    private RemarkType remarkType;
+//    @JsonProperty("circulationType")
+//    private CirculationType circulationType;
+//    @JsonProperty("dermatosisType")
+//    private DermatosisType dermatosisType;
+//    @JsonProperty("footDeformityType")
+//    private FootDeformityType footDeformityType;
+//    @JsonProperty("nailConditionType")
+//    private NailConditionType nailConditionType;
     // soins prodigués
+    @JsonProperty("careDate")
     private OffsetDateTime careDate;
     private String care;
     private String productsUsed;
@@ -49,6 +66,22 @@ public class PatientBodyDto {
     private String advice;
 
     public PatientBodyDto() {
+    }
+
+    public String getSkinType() {
+        return skinType;
+    }
+
+    public void setSkinType(String skinType) {
+        this.skinType = skinType;
+    }
+
+    public FootType getFootType() {
+        return footType;
+    }
+
+    public void setFootType(FootType footType) {
+        this.footType = footType;
     }
 
     public String getName() {
@@ -75,11 +108,11 @@ public class PatientBodyDto {
         this.phoneNum = phoneNum;
     }
 
-    public Optional<OffsetDateTime> getBirthdate() {
+    public Optional<String> getBirthdate() {
         return Optional.ofNullable(birthdate);
     }
 
-    public void setBirthdate(OffsetDateTime birthdate) {
+    public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -139,20 +172,26 @@ public class PatientBodyDto {
         this.comments = comments;
     }
 
-    public GroupType getGroupType() {
-        return groupType;
+    public int getGroupType() {
+        if(groupType == null){
+            return 0;
+        }
+        return groupType.getValue();
     }
 
-    public void setGroupType(GroupType groupType) {
-        this.groupType = groupType;
+    public void setGroupType(int groupType) {
+        this.groupType = GroupType.valueForCode(groupType);
     }
 
-    public DiabeteType getDiabeteType() {
-        return diabeteType;
+    public int getDiabeteType() {
+        if(diabeteType == null){
+            return 0;
+        }
+        return diabeteType.getValue();
     }
 
-    public void setDiabeteType(DiabeteType diabeteType) {
-        this.diabeteType = diabeteType;
+    public void setDiabeteType(int diabeteType) {
+        this.diabeteType = DiabeteType.valueForCode(diabeteType);
     }
 
     public Optional<String> getAddress() {
@@ -181,76 +220,79 @@ public class PatientBodyDto {
         this.drugs = drugs;
     }
 
-    public SkinType getSkinType() {
-        return skinType;
-    }
+//    public String getSkinType() {
+//        return skinType;
+//    }
+//
+//    public void setSkinType(String skinType) {
+//        this.skinType = skinType;
+//    }
 
-    public void setSkinType(SkinType skinType) {
-        this.skinType = skinType;
-    }
-
-    public FootType getFootType() {
-        return footType;
-    }
-
-    public void setFootType(FootType footType) {
-        this.footType = footType;
-    }
-
-    public SweatType getSweatType() {
-        return sweatType;
-    }
-
-    public void setSweatType(SweatType sweatType) {
-        this.sweatType = sweatType;
-    }
-
-    public RemarkType getRemarkType() {
-        return remarkType;
-    }
-
-    public void setRemarkType(RemarkType remarkType) {
-        this.remarkType = remarkType;
-    }
-
-    public CirculationType getCirculationType() {
-        return circulationType;
-    }
-
-    public void setCirculationType(CirculationType circulationType) {
-        this.circulationType = circulationType;
-    }
-
-    public DermatosisType getDermatosisType() {
-        return dermatosisType;
-    }
-
-    public void setDermatosisType(DermatosisType dermatosisType) {
-        this.dermatosisType = dermatosisType;
-    }
-
-    public FootDeformityType getFootDeformityType() {
-        return footDeformityType;
-    }
-
-    public void setFootDeformityType(FootDeformityType footDeformityType) {
-        this.footDeformityType = footDeformityType;
-    }
-
-    public NailConditionType getNailConditionType() {
-        return nailConditionType;
-    }
-
-    public void setNailConditionType(NailConditionType nailConditionType) {
-        this.nailConditionType = nailConditionType;
-    }
+//    public Optional<String> getFootType() {
+//        if(footType == null){
+//            return Optional.ofNullable(FootType.NONE.getLabel());
+//        }
+//        return Optional.ofNullable(footType.getLabel());
+//    }
+//
+//    public void setFootType(String footType) {
+//        this.footType = FootType.valueForCode(footType);
+//    }
+//
+//    public SweatType getSweatType() {
+//        return sweatType;
+//    }
+//
+//    public void setSweatType(String sweatType) {
+//        this.sweatType = SweatType.valueForCode(sweatType);
+//    }
+//
+//    public RemarkType getRemarkType() {
+//        return remarkType;
+//    }
+//
+//    public void setRemarkType(String remarkType) {
+//        this.remarkType = RemarkType.valueForCode(remarkType);
+//    }
+//
+//    public CirculationType getCirculationType() {
+//        return circulationType;
+//    }
+//
+//    public void setCirculationType(String circulationType) {
+//        this.circulationType = CirculationType.valueForCode(circulationType);
+//    }
+//
+//    public DermatosisType getDermatosisType() {
+//        return dermatosisType;
+//    }
+//
+//    public void setDermatosisType(String dermatosisType) {
+//        this.dermatosisType = DermatosisType.valueForCode(dermatosisType);
+//    }
+//
+//    public FootDeformityType getFootDeformityType() {
+//        return footDeformityType;
+//    }
+//
+//    public void setFootDeformityType(String footDeformityType) {
+//        this.footDeformityType = FootDeformityType.valueForCode(footDeformityType);
+//    }
+//
+//    public NailConditionType getNailConditionType() {
+//        return nailConditionType;
+//    }
+//
+//    public void setNailConditionType(String nailConditionType) {
+//        this.nailConditionType = NailConditionType.valueForCode(nailConditionType);
+//    }
 
     public OffsetDateTime getCareDate() {
         return careDate;
     }
 
-    public void setCareDate(OffsetDateTime careDate) {
-        this.careDate = careDate;
+    public void setCareDate(String careDate) {
+        this.careDate = LocalDate.parse(careDate).atStartOfDay().atOffset(ZoneOffset.UTC);
     }
 
     public String getCare() {

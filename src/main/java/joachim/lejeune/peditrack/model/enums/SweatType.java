@@ -1,8 +1,9 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum SweatType {
-    HYPERHIDROSIS(1, "Hyperhidrose", "Transpiration excessive."),
-    ANHYDROSIS(2, "Anidrose", "Absence de transpiration."),
+    NONE(0, null, "Auncun problème"),
+    HYPERHIDROSIS(1, "Hyperhydrose", "Transpiration excessive."),
+    ANHYDROSIS(2, "Anhydrose", "Absence de transpiration."),
     BROMIDROSE(3, "Bromidrose", "Transpiration accompagnée d'odeurs désagréables."),
     NORMAL(4, "Normale", "Transpiration normale.");
 
@@ -35,5 +36,17 @@ public enum SweatType {
             }
         }
         throw new IllegalArgumentException("Transpiration type not found for ID: " + id);
+    }
+
+    public static SweatType valueForCode(String sweatType) {
+        for (SweatType type : SweatType.values()) {
+            if(type.getLabel() == null){
+                return SweatType.NONE;
+            }
+            if (type.getLabel().equalsIgnoreCase(sweatType)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Transpiration type not found for label: " + sweatType);
     }
 }

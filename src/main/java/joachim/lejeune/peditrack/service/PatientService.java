@@ -1,12 +1,15 @@
 package joachim.lejeune.peditrack.service;
 
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
+import joachim.lejeune.peditrack.model.enums.DiabeteType;
+import joachim.lejeune.peditrack.model.enums.GroupType;
 import joachim.lejeune.peditrack.model.patient.Health;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +34,7 @@ public class PatientService {
         patient.setName(patientBodyDto.getName());
         patient.setFirstName(patientBodyDto.getFirstname());
         patientBodyDto.getPhoneNum().ifPresent(patient::setPhoneNum);
-        patientBodyDto.getBirthdate().ifPresent(patient::setBirthdate);
+        patientBodyDto.getBirthdate().ifPresent(s-> patient.setBirthdate(OffsetDateTime.parse(s)));
         patientBodyDto.getEmail().ifPresent(patient::setEmail);
         patientBodyDto.getPersonOfContact().ifPresent(patient::setPersonOfContact);
         patientBodyDto.getPersonOfContactPhoneNumber().ifPresent(patient::setPersonOfContactPhoneNumber);
@@ -40,10 +43,6 @@ public class PatientService {
         patientBodyDto.getComments().ifPresent(patient::setComments);
         patientBodyDto.getAddress().ifPresent(patient::setAddress);
         patientBodyDto.getMutual().ifPresent(patient::setMutual);
-
-        Health health = new Health();
-        // todo continuer ici pour svg la santé à la création du patient
-
 
         return patientRepository.save(patient);
     }
@@ -63,8 +62,8 @@ public class PatientService {
      * @param id The ID of the patient to retrieve.
      * @return An Optional containing the patient if found, or empty if not found.
      */
-    public Optional<Patient> getPatientById(Long id) {
-        return patientRepository.findById(id);
+    public Patient getPatientById(Long id) {
+        return patientRepository.getReferenceById(id);
     }
 
     /**
@@ -81,7 +80,7 @@ public class PatientService {
                     patient.setName(updatedPatient.getName());
                     patient.setFirstName(updatedPatient.getFirstname());
                     updatedPatient.getPhoneNum().ifPresent(patient::setPhoneNum);
-                    updatedPatient.getBirthdate().ifPresent(patient::setBirthdate);
+                    updatedPatient.getBirthdate().ifPresent(s-> patient.setBirthdate(OffsetDateTime.parse(s)));
                     updatedPatient.getAddress().ifPresent(patient::setAddress);
                     updatedPatient.getEmail().ifPresent(patient::setEmail);
                     updatedPatient.getPersonOfContact().ifPresent(patient::setPersonOfContact);
@@ -90,12 +89,6 @@ public class PatientService {
                     updatedPatient.getDoctor().ifPresent(patient::setDoctor);
                     updatedPatient.getMutual().ifPresent(patient::setMutual);
                     updatedPatient.getComments().ifPresent(patient::setComments);
-
-                    Health health = new Health();
-                    health.setPatient(patient);
-                    Optional.ofNullable(updatedPatient.getGroupType()).ifPresent(health::setGroupType);
-                    Optional.ofNullable(updatedPatient.getDiabeteType()).ifPresent(health::setDiabeteType);
-                    Optional.ofNullable(updatedPatient.getCareDate()).ifPresent(h -> health.setDateConsultation(new Date(h.toEpochSecond())));
 
                     return patientRepository.save(patient);
                 }).orElseThrow(() -> new RuntimeException("Patient not found with id " + id));

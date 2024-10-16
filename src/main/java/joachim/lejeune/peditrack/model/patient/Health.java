@@ -23,9 +23,10 @@ public class Health {
     @JoinColumn(name = "id_patient", nullable = false)
     @JsonBackReference
     private Patient patient;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "group_type")
     private GroupType groupType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "diabete_type")
     private DiabeteType diabeteType;
     @Column(name = "date_consultation")
@@ -49,21 +50,28 @@ public class Health {
 
     @Column(name = "drugs")
     private String drugs;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "skin")
     private SkinType skinType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "feet")
     private FootType footType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "sweating")
     private SweatType sweatType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "footnotes")
     private RemarkType remarkType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "circulation")
     private CirculationType circulationType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "dermatosis")
     private DermatosisType dermatosisType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "foot_deformity")
     private FootDeformityType footDeformityType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "nail_disease")
     private NailConditionType nailConditionType;
     @Column(name = "shoes_condition")
@@ -79,6 +87,9 @@ public class Health {
     private String possibleInjuries;
     @Column(name = "advice_given")
     private String advice;
+
+    public Health() {
+    }
 
     public Long getId() {
         return id;

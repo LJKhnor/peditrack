@@ -1,6 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum DermatosisType {
+    NONE(0, null, "Auncun problème"),
     ECZEMA(1, "Eczéma", "Inflammation de la peau, souvent accompagnée de démangeaisons."),
     PSORIASIS(2, "Psoriasis", "Affection chronique de la peau causant des plaques rouges."),
     VERRUES(3, "Verrues", "Croissance cutanée causée par un virus."),
@@ -35,5 +36,17 @@ public enum DermatosisType {
             }
         }
         throw new IllegalArgumentException("Dermatose type not found for ID: " + id);
+    }
+
+    public static DermatosisType valueForCode(String dermatosisType) {
+        for (DermatosisType type : DermatosisType.values()) {
+            if(type.getLabel() == null){
+                return DermatosisType.NONE;
+            }
+            if (type.getLabel().equalsIgnoreCase(dermatosisType)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Dermatosis type not found for label: " + dermatosisType);
     }
 }

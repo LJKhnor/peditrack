@@ -16,4 +16,21 @@ public enum GroupType {
     public int getValue() {
         return value;
     }
+    public static GroupType valueForCode(int id){
+        for (GroupType type : GroupType.values()) {
+            if (type.getValue() == id) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("Invalid GroupType id: " + id);
+    }
+
+    public static int codeForValue(GroupType groupType){
+        for(GroupType type: GroupType.values()){
+            if(type == groupType){
+                return type.getValue();
+            }
+        }
+        throw new IllegalArgumentException(("Invalid group type enum : " + groupType));
+    }
 }

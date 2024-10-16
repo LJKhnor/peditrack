@@ -51,9 +51,10 @@ spring:
       platform: postgresql
 logging:
   level:
-    root: INFO
-    web: DEBUG
+    root: debug
+    web: debug
     hibernate: trace
+    tomcat: error
 ---
 #################################################################
 #                              DEV                              #

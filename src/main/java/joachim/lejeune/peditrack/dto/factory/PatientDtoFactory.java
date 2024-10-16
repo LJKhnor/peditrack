@@ -10,27 +10,6 @@ public class PatientDtoFactory {
     public PatientDtoFactory() {
     }
 
-    public PatientDto convertComplete(Patient patient, Health health) {
-        PatientDto dto = new PatientDto();
-        dto.setId(patient.getId());
-        dto.setName(patient.getName());
-        dto.setFirstname(patient.getFirstName());
-        dto.setPhoneNum(patient.getPhoneNum());
-        dto.setBirthdate(patient.getBirthdate());
-        dto.setEmail(patient.getEmail());
-        dto.setPersonOfContact(patient.getPersonOfContact());
-        dto.setPersonOfContactPhoneNumber(patient.getPersonOfContactPhoneNumber());
-        dto.setReferenceBy(patient.getReferenceBy());
-        dto.setDoctor(patient.getDoctor());
-        dto.setMutual(patient.getMutual());
-        dto.setComments(patient.getComments());
-
-
-        dto.setGroupType(health.getGroupType());
-        dto.setDiabeteType(health.getDiabeteType());
-        return dto;
-    }
-
     public PatientDto convert(Patient patient) {
         PatientDto dto = new PatientDto();
         dto.setId(patient.getId());
@@ -46,7 +25,6 @@ public class PatientDtoFactory {
         dto.setDoctor(patient.getDoctor());
         dto.setMutual(patient.getMutual());
         dto.setComments(patient.getComments());
-
 
         return dto;
     }

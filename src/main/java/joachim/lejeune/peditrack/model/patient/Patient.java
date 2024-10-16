@@ -60,6 +60,9 @@ public class Patient {
     @JsonManagedReference
     private List<Health> healthRecords;
 
+    public Patient() {
+    }
+
     public List<Health> getHealthRecords() {
         return healthRecords;
     }
@@ -198,5 +201,11 @@ public class Patient {
 
     public void addHealthRecord(Health health) {
         this.healthRecords.add(health);
+    }
+    public Health getLastHealth(){
+        if(getHealthRecords().size() == 0){
+            return new Health();
+        }
+        return getHealthRecords().get(getHealthRecords().size() - 1);
     }
 }
