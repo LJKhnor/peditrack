@@ -40,15 +40,15 @@ public enum FootType {
         throw new IllegalArgumentException("Foot type not found for ID: " + id);
     }
 
-    public static FootType valueForCode(String footType) {
+    public static FootType valueForLabel(String label) {
         for (FootType type : FootType.values()) {
             if(type.getLabel() != null){
-                if (type.getLabel().equalsIgnoreCase(footType)) {
+                if (type.getLabel().equalsIgnoreCase(label)) {
                     return type;
                 }
             }
         }
-        throw new IllegalArgumentException("Foot type not found for label: " + footType);
+        throw new IllegalArgumentException("Foot type not found for label: " + label);
     }
 //    public static String codeForValue(FootType footType){
 //        for(FootType type: FootType.values()){

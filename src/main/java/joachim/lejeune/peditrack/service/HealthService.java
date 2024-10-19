@@ -1,10 +1,7 @@
 package joachim.lejeune.peditrack.service;
 
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
-import joachim.lejeune.peditrack.model.enums.DiabeteType;
-import joachim.lejeune.peditrack.model.enums.FootType;
-import joachim.lejeune.peditrack.model.enums.GroupType;
-import joachim.lejeune.peditrack.model.enums.SkinType;
+import joachim.lejeune.peditrack.model.enums.*;
 import joachim.lejeune.peditrack.model.patient.Health;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.repository.HealthRepository;
@@ -25,7 +22,9 @@ public class HealthService {
         health.setDiabeteType(DiabeteType.valueForCode(patientBodyDto.getDiabeteType()));
 
         health.setSkinType(SkinType.valueForLabel(Optional.ofNullable(patientBodyDto.getSkinType()).orElse("")));
-        Optional.ofNullable(patientBodyDto.getFootType()).ifPresent(health::setFootType);
+        health.setFootType(FootType.valueForLabel(Optional.ofNullable(patientBodyDto.getFootType()).orElse("")));
+        health.setSweatType(SweatType.valueForLabel(Optional.ofNullable(patientBodyDto.getSweatType()).orElse("")));
+        health.setRemarkType(RemarkType.valueForLabel(Optional.ofNullable(patientBodyDto.getRemarkType()).orElse("")));
 
         return healthRepository.save(health);
     }

@@ -38,11 +38,8 @@ public enum RemarkType {
         throw new IllegalArgumentException("Comment type not found for ID: " + id);
     }
 
-    public static RemarkType valueForCode(String remarkType) {
+    public static RemarkType valueForLabel(String remarkType) {
         for (RemarkType type : RemarkType.values()) {
-            if(type.getLabel() == null){
-                return RemarkType.NONE;
-            }
             if (type.getLabel().equalsIgnoreCase(remarkType)) {
                 return type;
             }

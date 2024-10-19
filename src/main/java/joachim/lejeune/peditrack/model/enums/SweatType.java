@@ -38,11 +38,8 @@ public enum SweatType {
         throw new IllegalArgumentException("Transpiration type not found for ID: " + id);
     }
 
-    public static SweatType valueForCode(String sweatType) {
+    public static SweatType valueForLabel(String sweatType) {
         for (SweatType type : SweatType.values()) {
-            if(type.getLabel() == null){
-                return SweatType.NONE;
-            }
             if (type.getLabel().equalsIgnoreCase(sweatType)) {
                 return type;
             }

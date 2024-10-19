@@ -42,19 +42,12 @@ public class PatientBodyDto {
     private String drugs;
 
     private String skinType;
-//    @JsonProperty("footType")
-    private FootType footType;
-//    @JsonProperty("sweatType")
-//    private SweatType sweatType;
-//    @JsonProperty("remarkType")
-//    private RemarkType remarkType;
-//    @JsonProperty("circulationType")
+    private String footType;
+    private String sweatType;
+    private String remarkType;
 //    private CirculationType circulationType;
-//    @JsonProperty("dermatosisType")
 //    private DermatosisType dermatosisType;
-//    @JsonProperty("footDeformityType")
 //    private FootDeformityType footDeformityType;
-//    @JsonProperty("nailConditionType")
 //    private NailConditionType nailConditionType;
     // soins prodigués
     @JsonProperty("careDate")
@@ -68,6 +61,14 @@ public class PatientBodyDto {
     public PatientBodyDto() {
     }
 
+    public String getSweatType() {
+        return sweatType;
+    }
+
+    public String getRemarkType() {
+        return remarkType;
+    }
+
     public String getSkinType() {
         return skinType;
     }
@@ -76,11 +77,11 @@ public class PatientBodyDto {
         this.skinType = skinType;
     }
 
-    public FootType getFootType() {
+    public String getFootType() {
         return footType;
     }
 
-    public void setFootType(FootType footType) {
+    public void setFootType(String footType) {
         this.footType = footType;
     }
 
