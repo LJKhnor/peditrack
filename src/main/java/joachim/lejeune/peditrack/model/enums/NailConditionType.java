@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum NailConditionType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     ONYCOMYCHOSES(1, "Onycomychoses", "Infection fongique des ongles."),
     ONYCHOGRYPHOSES(2, "Onychogryphoses", "Épaississement anormal et déformation des ongles."),
     ONGLES_INCARNES(3, "Ongles incarnés", "Ongles qui pénètrent dans la chair environnante."),
@@ -39,7 +39,7 @@ public enum NailConditionType {
         throw new IllegalArgumentException("Nail condition type not found for ID: " + id);
     }
 
-    public static NailConditionType valueForCode(String nailConditionType) {
+    public static NailConditionType valueForLabel(String nailConditionType) {
         if(nailConditionType == null){
             return NailConditionType.NONE;
         }

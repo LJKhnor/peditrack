@@ -17,7 +17,8 @@ public class HealthDtoFactory {
         dto.setWithHeartDisorder(newHealth.isWithHeartDisorder());
         dto.setWithBleedingDisorder(newHealth.isWithBleedingDisorder());
         dto.setWithThyroideDisorder(newHealth.isWithThyroidDisorder());
-        dto.setHasHipOrKneeProsthesis(newHealth.isHasHipOrKneeProthesis());
+        dto.setHasHipProsthesis(newHealth.isHasHipProthesis());
+        dto.setHasKneeProsthesis(newHealth.isHasKneeProthesis());
         dto.setHasRecentDiseases(newHealth.isHasRecentDiseases());
         dto.setHasRecentOperations(newHealth.isHasRecentOperation());
         dto.setAllergies(newHealth.getAllergies());

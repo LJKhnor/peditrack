@@ -35,7 +35,8 @@ public class PatientBodyDto {
     private boolean isWithHeartDisorder;
     private boolean isWithBleedingDisorder;
     private boolean isWithThyroidDisorder;
-    private boolean hasHipOrKneeProthesis;
+    private boolean hasHipProthesis;
+    private boolean hasKneeProthesis;
     private boolean hasRecentDiseases;
     private boolean hasRecentOperation;
     private String allergies;
@@ -45,10 +46,10 @@ public class PatientBodyDto {
     private String footType;
     private String sweatType;
     private String remarkType;
-//    private CirculationType circulationType;
-//    private DermatosisType dermatosisType;
-//    private FootDeformityType footDeformityType;
-//    private NailConditionType nailConditionType;
+    private String circulationType;
+    private String dermatosisType;
+    private String footDeformityType;
+    private String nailConditionType;
     // soins prodigués
     @JsonProperty("careDate")
     private OffsetDateTime careDate;
@@ -59,6 +60,22 @@ public class PatientBodyDto {
     private String advice;
 
     public PatientBodyDto() {
+    }
+
+    public String getCirculationType() {
+        return circulationType;
+    }
+
+    public String getDermatosisType() {
+        return dermatosisType;
+    }
+
+    public String getFootDeformityType() {
+        return footDeformityType;
+    }
+
+    public String getNailConditionType() {
+        return nailConditionType;
     }
 
     public String getSweatType() {
@@ -344,12 +361,12 @@ public class PatientBodyDto {
         isWithThyroidDisorder = withThyroidDisorder;
     }
 
-    public boolean isHasHipOrKneeProthesis() {
-        return hasHipOrKneeProthesis;
+    public boolean isHasHipProthesis() {
+        return hasHipProthesis;
     }
 
-    public void setHasHipOrKneeProthesis(boolean hasHipOrKneeProthesis) {
-        this.hasHipOrKneeProthesis = hasHipOrKneeProthesis;
+    public boolean isHasKneeProthesis() {
+        return hasKneeProthesis;
     }
 
     public boolean isHasRecentDiseases() {

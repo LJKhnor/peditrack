@@ -11,7 +11,8 @@ public class HealthDto {
     private boolean isWithHeartDisorder;
     private boolean isWithBleedingDisorder;
     private boolean isWithThyroideDisorder;
-    private boolean hasHipOrKneeProsthesis;
+    private boolean hasHipProsthesis;
+    private boolean hasKneeProsthesis;
     private boolean hasRecentDiseases;
     private boolean hasRecentOperations;
     private String allergies;
@@ -33,6 +34,22 @@ public class HealthDto {
     private String advice;
 
     public HealthDto() {
+    }
+
+    public boolean isHasHipProsthesis() {
+        return hasHipProsthesis;
+    }
+
+    public void setHasHipProsthesis(boolean hasHipProsthesis) {
+        this.hasHipProsthesis = hasHipProsthesis;
+    }
+
+    public boolean isHasKneeProsthesis() {
+        return hasKneeProsthesis;
+    }
+
+    public void setHasKneeProsthesis(boolean hasKneeProsthesis) {
+        this.hasKneeProsthesis = hasKneeProsthesis;
     }
 
     public boolean isWithHeartDisorder() {
@@ -57,14 +74,6 @@ public class HealthDto {
 
     public void setWithThyroideDisorder(boolean withThyroideDisorder) {
         isWithThyroideDisorder = withThyroideDisorder;
-    }
-
-    public boolean isHasHipOrKneeProsthesis() {
-        return hasHipOrKneeProsthesis;
-    }
-
-    public void setHasHipOrKneeProsthesis(boolean hasHipOrKneeProsthesis) {
-        this.hasHipOrKneeProsthesis = hasHipOrKneeProsthesis;
     }
 
     public boolean isHasRecentDiseases() {

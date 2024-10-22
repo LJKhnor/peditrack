@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum FootType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     HOLLOW(1, "Creux", "Pied avec une arche très élevée."),
     FLAT(2, "Plat", "Pied avec une arche basse ou inexistante."),
     GREEK(3, "Grec", "Deuxième orteil plus long que le gros orteil."),

@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum FootDeformityType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     ORTEILS_EN_MARTEAU(1, "Orteils en marteau", "Déformation des orteils qui sont pliés vers le bas."),
     HALLUX_VALGUS(2, "Hallux valgus", "Déformation où le gros orteil est incliné vers les autres orteils."),
     HALLUX_VARUS(3, "Hallux varus", "Déviation du gros orteil vers l'extérieur."),
@@ -41,7 +41,7 @@ public enum FootDeformityType {
         throw new IllegalArgumentException("Foot deformity type not found for ID: " + id);
     }
 
-    public static FootDeformityType valueForCode(String footDeformityType) {
+    public static FootDeformityType valueForLabel(String footDeformityType) {
         for (FootDeformityType type : FootDeformityType.values()) {
             if(type.getLabel() == null){
                 return FootDeformityType.NONE;

@@ -38,8 +38,10 @@ public class Health {
     private boolean isWithBleedingDisorder;
     @Column(name = "is_with_thyroid_disorder")
     private boolean isWithThyroidDisorder;
-    @Column(name = "has_hip_or_knee_prothesis")
-    private boolean hasHipOrKneeProthesis;
+    @Column(name = "has_hip_prothesis")
+    private boolean hasHipProthesis;
+    @Column(name = "has_knee_prothesis")
+    private boolean hasKneeProthesis;
     @Column(name = "has_recent_diseases")
     private boolean hasRecentDiseases;
     @Column(name = "has_recent_operation")
@@ -155,12 +157,20 @@ public class Health {
         isWithThyroidDisorder = withThyroidDisorder;
     }
 
-    public boolean isHasHipOrKneeProthesis() {
-        return hasHipOrKneeProthesis;
+    public boolean isHasHipProthesis() {
+        return hasHipProthesis;
     }
 
-    public void setHasHipOrKneeProthesis(boolean hasHipOrKneeProthesis) {
-        this.hasHipOrKneeProthesis = hasHipOrKneeProthesis;
+    public void setHasHipProthesis(boolean hasHipProthesis) {
+        this.hasHipProthesis = hasHipProthesis;
+    }
+
+    public boolean isHasKneeProthesis() {
+        return hasKneeProthesis;
+    }
+
+    public void setHasKneeProthesis(boolean hasKneeProthesis) {
+        this.hasKneeProthesis = hasKneeProthesis;
     }
 
     public boolean isHasRecentDiseases() {

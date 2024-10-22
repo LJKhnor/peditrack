@@ -1,9 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
-import org.hibernate.sql.results.internal.domain.CircularFetchImpl;
-
 public enum CirculationType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     COLD_FEET(1, "Pieds froids", "Réduction de la circulation, provoquant une sensation de froid."),
     VARICOSITIES(2, "Varicosités", "Petites veines superficielles dilatées."),
     BLUISH_FEET(3, "Pieds bleutés", "Mauvaise oxygénation des pieds."),
@@ -41,7 +39,7 @@ public enum CirculationType {
         throw new IllegalArgumentException("Circulation type not found for ID: " + id);
     }
 
-    public static CirculationType valueForCode(String circulationType) {
+    public static CirculationType valueForLabel(String circulationType) {
         for (CirculationType type : CirculationType.values()) {
             if(type.getLabel() == null){
                 return CirculationType.NONE;

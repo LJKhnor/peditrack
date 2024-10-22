@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum SweatType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     HYPERHIDROSIS(1, "Hyperhydrose", "Transpiration excessive."),
     ANHYDROSIS(2, "Anhydrose", "Absence de transpiration."),
     BROMIDROSE(3, "Bromidrose", "Transpiration accompagnée d'odeurs désagréables."),

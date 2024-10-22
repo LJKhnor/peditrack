@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.model.enums;
 
 public enum RemarkType {
-    NONE(0, null, "Auncun problème"),
+    NONE(0, "", "Auncun problème"),
     CORS(1, "Cors", "Épaississement douloureux de la peau sur les zones de pression."),
     DURILLONS(2, "Durillons", "Épaississement moins douloureux de la peau, souvent sur la plante des pieds."),
     CREVASSES(3, "Crevasses", "Fissures dans la peau causées par la sécheresse."),
