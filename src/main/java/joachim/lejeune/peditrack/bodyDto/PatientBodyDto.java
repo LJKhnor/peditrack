@@ -1,14 +1,8 @@
 package joachim.lejeune.peditrack.bodyDto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import joachim.lejeune.peditrack.model.enums.*;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
 import java.util.Optional;
 
 //@JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,37 +20,52 @@ public class PatientBodyDto {
     private String doctor;
     private String mutual;
     private String comments;
+
     // informations médicales
     @JsonProperty("groupType")
     private GroupType groupType;
     @JsonProperty("diabeteType")
     private DiabeteType diabeteType;
-    private Date dateConsultation;
-    private boolean isWithHeartDisorder;
+    @JsonProperty("isWithBleedingDisorder")
     private boolean isWithBleedingDisorder;
-    private boolean isWithThyroidDisorder;
-    private boolean hasHipProthesis;
-    private boolean hasKneeProthesis;
+    @JsonProperty("isWithHeartDisorder")
+    private boolean isWithHeartDisorder;
+    @JsonProperty("isWithThyroideDisorder")
+    private boolean isWithThyroideDisorder;
+    @JsonProperty("hasHipProsthesis")
+    private boolean hasHipProsthesis;
+    @JsonProperty("hasKneeProsthesis")
+    private boolean hasKneeProsthesis;
+    @JsonProperty("hasRecentDiseases")
     private boolean hasRecentDiseases;
-    private boolean hasRecentOperation;
+    @JsonProperty("hasRecentOperations")
+    private boolean hasRecentOperations;
     private String allergies;
     private String drugs;
 
     private String skinType;
     private String footType;
+    @JsonProperty("sweatType")
     private String sweatType;
+    @JsonProperty("remarkType")
     private String remarkType;
+    @JsonProperty("circulationType")
     private String circulationType;
     private String dermatosisType;
     private String footDeformityType;
     private String nailConditionType;
+
     // soins prodigués
-    @JsonProperty("careDate")
-    private OffsetDateTime careDate;
+    @JsonProperty("date")
+    private String careDate;
     private String care;
+    @JsonProperty("productsUsed")
     private String productsUsed;
+    @JsonProperty("materialsUsed")
     private String materialsUsed;
+    @JsonProperty("possibleInjuries")
     private String possibleInjuries;
+    @JsonProperty("advice")
     private String advice;
 
     public PatientBodyDto() {
@@ -220,8 +229,6 @@ public class PatientBodyDto {
         this.address = address;
     }
 
-
-
     public String getAllergies() {
         return allergies;
     }
@@ -238,79 +245,12 @@ public class PatientBodyDto {
         this.drugs = drugs;
     }
 
-//    public String getSkinType() {
-//        return skinType;
-//    }
-//
-//    public void setSkinType(String skinType) {
-//        this.skinType = skinType;
-//    }
-
-//    public Optional<String> getFootType() {
-//        if(footType == null){
-//            return Optional.ofNullable(FootType.NONE.getLabel());
-//        }
-//        return Optional.ofNullable(footType.getLabel());
-//    }
-//
-//    public void setFootType(String footType) {
-//        this.footType = FootType.valueForCode(footType);
-//    }
-//
-//    public SweatType getSweatType() {
-//        return sweatType;
-//    }
-//
-//    public void setSweatType(String sweatType) {
-//        this.sweatType = SweatType.valueForCode(sweatType);
-//    }
-//
-//    public RemarkType getRemarkType() {
-//        return remarkType;
-//    }
-//
-//    public void setRemarkType(String remarkType) {
-//        this.remarkType = RemarkType.valueForCode(remarkType);
-//    }
-//
-//    public CirculationType getCirculationType() {
-//        return circulationType;
-//    }
-//
-//    public void setCirculationType(String circulationType) {
-//        this.circulationType = CirculationType.valueForCode(circulationType);
-//    }
-//
-//    public DermatosisType getDermatosisType() {
-//        return dermatosisType;
-//    }
-//
-//    public void setDermatosisType(String dermatosisType) {
-//        this.dermatosisType = DermatosisType.valueForCode(dermatosisType);
-//    }
-//
-//    public FootDeformityType getFootDeformityType() {
-//        return footDeformityType;
-//    }
-//
-//    public void setFootDeformityType(String footDeformityType) {
-//        this.footDeformityType = FootDeformityType.valueForCode(footDeformityType);
-//    }
-//
-//    public NailConditionType getNailConditionType() {
-//        return nailConditionType;
-//    }
-//
-//    public void setNailConditionType(String nailConditionType) {
-//        this.nailConditionType = NailConditionType.valueForCode(nailConditionType);
-//    }
-
-    public OffsetDateTime getCareDate() {
-        return careDate;
+    public Optional<String> getCareDate() {
+        return Optional.ofNullable(careDate);
     }
 
     public void setCareDate(String careDate) {
-        this.careDate = LocalDate.parse(careDate).atStartOfDay().atOffset(ZoneOffset.UTC);
+        this.careDate = careDate;
     }
 
     public String getCare() {
@@ -329,14 +269,6 @@ public class PatientBodyDto {
         this.advice = advice;
     }
 
-    public Date getDateConsultation() {
-        return dateConsultation;
-    }
-
-    public void setDateConsultation(Date dateConsultation) {
-        this.dateConsultation = dateConsultation;
-    }
-
     public boolean isWithHeartDisorder() {
         return isWithHeartDisorder;
     }
@@ -353,20 +285,60 @@ public class PatientBodyDto {
         isWithBleedingDisorder = withBleedingDisorder;
     }
 
-    public boolean isWithThyroidDisorder() {
-        return isWithThyroidDisorder;
+    public boolean isWithThyroideDisorder() {
+        return isWithThyroideDisorder;
     }
 
-    public void setWithThyroidDisorder(boolean withThyroidDisorder) {
-        isWithThyroidDisorder = withThyroidDisorder;
+    public void setWithThyroideDisorder(boolean withThyroideDisorder) {
+        isWithThyroideDisorder = withThyroideDisorder;
     }
 
-    public boolean isHasHipProthesis() {
-        return hasHipProthesis;
+    public boolean isHasHipProsthesis() {
+        return hasHipProsthesis;
     }
 
-    public boolean isHasKneeProthesis() {
-        return hasKneeProthesis;
+    public boolean isHasKneeProsthesis() {
+        return hasKneeProsthesis;
+    }
+
+    public void setGroupType(GroupType groupType) {
+        this.groupType = groupType;
+    }
+
+    public void setDiabeteType(DiabeteType diabeteType) {
+        this.diabeteType = diabeteType;
+    }
+
+    public void setHasHipProsthesis(boolean hasHipProsthesis) {
+        this.hasHipProsthesis = hasHipProsthesis;
+    }
+
+    public void setHasKneeProsthesis(boolean hasKneeProsthesis) {
+        this.hasKneeProsthesis = hasKneeProsthesis;
+    }
+
+    public void setSweatType(String sweatType) {
+        this.sweatType = sweatType;
+    }
+
+    public void setRemarkType(String remarkType) {
+        this.remarkType = remarkType;
+    }
+
+    public void setCirculationType(String circulationType) {
+        this.circulationType = circulationType;
+    }
+
+    public void setDermatosisType(String dermatosisType) {
+        this.dermatosisType = dermatosisType;
+    }
+
+    public void setFootDeformityType(String footDeformityType) {
+        this.footDeformityType = footDeformityType;
+    }
+
+    public void setNailConditionType(String nailConditionType) {
+        this.nailConditionType = nailConditionType;
     }
 
     public boolean isHasRecentDiseases() {
@@ -377,12 +349,12 @@ public class PatientBodyDto {
         this.hasRecentDiseases = hasRecentDiseases;
     }
 
-    public boolean isHasRecentOperation() {
-        return hasRecentOperation;
+    public boolean isHasRecentOperations() {
+        return hasRecentOperations;
     }
 
-    public void setHasRecentOperation(boolean hasRecentOperation) {
-        this.hasRecentOperation = hasRecentOperation;
+    public void setHasRecentOperations(boolean hasRecentOperations) {
+        this.hasRecentOperations = hasRecentOperations;
     }
 
     public String getProductsUsed() {

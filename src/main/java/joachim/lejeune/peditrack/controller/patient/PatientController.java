@@ -69,8 +69,10 @@ public class PatientController {
 
         // Appel au service pour créer le patient en db
         Patient newPatient = patientService.createPatient(patientBodyDto);
-        PatientDto patientDto = patientDtoFactory.convert(newPatient);
         Health newHealth = healthService.createNewHealth(newPatient, patientBodyDto);
+        newPatient.addHealthRecord(newHealth);
+
+        PatientDto patientDto = patientDtoFactory.convert(newPatient);
 
         return new ResponseEntity<>(patientDto,HttpStatus.CREATED);
     }

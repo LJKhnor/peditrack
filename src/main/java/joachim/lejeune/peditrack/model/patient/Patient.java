@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -200,7 +201,11 @@ public class Patient {
     }
 
     public void addHealthRecord(Health health) {
-        this.healthRecords.add(health);
+        if(this.healthRecords != null){
+            this.healthRecords.add(health);
+        } else {
+            this.healthRecords = Arrays.asList(health);
+        }
     }
     public Health getLastHealth(){
         if(getHealthRecords().size() == 0){

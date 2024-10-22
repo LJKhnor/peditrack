@@ -30,7 +30,7 @@ public class Health {
     @Column(name = "diabete_type")
     private DiabeteType diabeteType;
     @Column(name = "date_consultation")
-    private Date dateConsultation;
+    private OffsetDateTime dateConsultation;
 
     @Column(name = "is_with_heart_disorder")
     private boolean isWithHeartDisorder;
@@ -80,7 +80,7 @@ public class Health {
     private String shoesCondition;
 
     @Column(name = "cares")
-    private OffsetDateTime careDate;
+    private String cares;
     @Column(name = "products_used")
     private String productsUsed;
     @Column(name = "materials_used")
@@ -125,11 +125,11 @@ public class Health {
         this.diabeteType = diabeteType;
     }
 
-    public Date getDateConsultation() {
+    public OffsetDateTime getDateConsultation() {
         return dateConsultation;
     }
 
-    public void setDateConsultation(Date dateConsultation) {
+    public void setDateConsultation(OffsetDateTime dateConsultation) {
         this.dateConsultation = dateConsultation;
     }
 
@@ -277,12 +277,12 @@ public class Health {
         this.shoesCondition = shoesCondition;
     }
 
-    public OffsetDateTime getCareDate() {
-        return careDate;
+    public String getCares() {
+        return cares;
     }
 
-    public void setCareDate(OffsetDateTime careDate) {
-        this.careDate = careDate;
+    public void setCares(String cares) {
+        this.cares = cares;
     }
 
     public String getProductsUsed() {

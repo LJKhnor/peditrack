@@ -31,8 +31,8 @@ public class HealthDtoFactory {
         dto.setDermatosisType((Optional.ofNullable(newHealth.getDermatosisType()).orElse(DermatosisType.NONE)).getLabel());
         dto.setFootDeformityType((Optional.ofNullable(newHealth.getFootDeformityType()).orElse(FootDeformityType.NONE)).getLabel());
         dto.setNailConditionType((Optional.ofNullable(newHealth.getNailConditionType()).orElse(NailConditionType.NONE)).getLabel());
-        dto.setCareDate(newHealth.getCareDate());
-        dto.setCare(newHealth.getAdvice());
+        dto.setCareDate(newHealth.getDateConsultation());
+        dto.setCare(newHealth.getCares());
         dto.setUsedProducts(newHealth.getProductsUsed());
         dto.setUsedTools(newHealth.getMaterialsUsed());
         dto.setPossibleWounds(newHealth.getPossibleInjuries());
