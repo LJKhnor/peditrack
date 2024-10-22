@@ -59,11 +59,11 @@ public class PatientBodyDto {
     @JsonProperty("date")
     private String careDate;
     private String care;
-    @JsonProperty("productsUsed")
+    @JsonProperty("usedProducts")
     private String productsUsed;
-    @JsonProperty("materialsUsed")
+    @JsonProperty("usedTools")
     private String materialsUsed;
-    @JsonProperty("possibleInjuries")
+    @JsonProperty("possibleWounds")
     private String possibleInjuries;
     @JsonProperty("advice")
     private String advice;
