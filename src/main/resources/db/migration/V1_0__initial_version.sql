@@ -61,10 +61,11 @@ CREATE TABLE IF NOT EXISTS "user" (
     password VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(20) NOT NULL
+);
 
--- Relationships
--- A patient can have 0 or 1 mutual, and a mutual can have 1 to many patients (already implemented via the mutual_id in the Patient table).
--- A patient can have multiple health conditions (handled by the Patient_Health joint table).
--- A patient can have one person of contact, and a person of contact can have many patients (circular reference handled via foreign key in Patient).
--- A patient can have multiple doctors and a doctor can have many patients (via doctor_id in Patient).
+INSERT INTO roles (name) VALUES ('ROLE_USER');
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 

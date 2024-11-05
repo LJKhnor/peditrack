@@ -10,6 +10,8 @@ management:
   server:
     port: 8185
 spring:
+  main:
+    allow-circular-references: true
   profiles:
     active:
   application:
@@ -55,6 +57,10 @@ logging:
     web: debug
     hibernate: trace
     tomcat: error
+jwt:
+  secret: mySecretKey
+  expirationMs: 86400000
+
 ---
 #################################################################
 #                              DEV                              #
