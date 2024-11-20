@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -16,28 +17,32 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private User user;
 
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Collection<? extends GrantedAuthority> authorities, User user) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.user = user;
     }
 
     // Cette méthode est utilisée pour créer un UserDetailsImpl à partir d'un objet utilisateur personnalisé
     public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
-                .collect(Collectors.toList());
+//        List<GrantedAuthority> authorities = user.getRole().stream()
+//                .map(role -> new SimpleGrantedAuthority(role))
+//                .collect(Collectors.toList());
+
+        List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
 
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                authorities, user);
     }
 
     @Override
@@ -61,22 +66,26 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     @Override

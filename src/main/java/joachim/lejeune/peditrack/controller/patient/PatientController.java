@@ -1,7 +1,7 @@
 package joachim.lejeune.peditrack.controller.patient;
 
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
-import joachim.lejeune.peditrack.dto.HealthDto;
+import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.dto.PatientDto;
 import joachim.lejeune.peditrack.dto.PatientRecordDto;
 import joachim.lejeune.peditrack.dto.factory.HealthDtoFactory;
@@ -15,10 +15,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -40,8 +41,9 @@ public class PatientController {
     @GetMapping("/patients")
     public ResponseEntity<List<PatientDto>> getAllPatients() throws Exception {
         LOG.info("Enter method getAllPatients");
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        List<PatientDto> patientDtos = patientService.getAllPatients()
+        List<PatientDto> patientDtos = patientService.findByUser(userDetails.getUser())
                 .stream()
                 .map(patient -> patientDtoFactory.convert(patient))
                 .toList();
@@ -67,8 +69,10 @@ public class PatientController {
         assertNotNull("Patient name must be not null",patientBodyDto.getName());
         assertNotNull("Patient firstname must be not null", patientBodyDto.getFirstname());
 
+        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         // Appel au service pour créer le patient en db
-        Patient newPatient = patientService.createPatient(patientBodyDto);
+        Patient newPatient = patientService.createPatient(patientBodyDto, user);
         Health newHealth = healthService.createNewHealth(newPatient, patientBodyDto);
         newPatient.addHealthRecord(newHealth);
 

@@ -1,37 +1,59 @@
 package joachim.lejeune.peditrack.bodyDto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import joachim.lejeune.peditrack.model.role.Role;
+
+import java.util.List;
+import java.util.Set;
+
 public class UserBodyDto {
-    private String name;
+    @NotBlank
+    private String username;
+    @Email
+    @NotBlank
+    private String mail;
+    @NotBlank
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
-    private String email;
+    private List<String> roles;
 
     public UserBodyDto(String name, String password, String email) {
-        this.name = name;
+        this.username = name;
         this.password = password;
-        this.email = email;
+        this.mail = email;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }

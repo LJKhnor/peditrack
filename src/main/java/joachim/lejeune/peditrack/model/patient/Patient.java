@@ -2,6 +2,7 @@ package joachim.lejeune.peditrack.model.patient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import joachim.lejeune.peditrack.model.user.User;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -60,6 +61,10 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Health> healthRecords;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false) // La clé étrangère vers User
+    private User user;
 
     public Patient() {
     }
@@ -212,5 +217,13 @@ public class Patient {
             return new Health();
         }
         return getHealthRecords().get(getHealthRecords().size() - 1);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

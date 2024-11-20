@@ -23,21 +23,28 @@ import java.util.List;
 public class AuthController {
     private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    JwtUtils jwtUtils;
+    private final JwtUtils jwtUtils;
+
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
+    }
 
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
         LOG.info("Enter method authenticateUser for user :", loginRequest.getUsername());
 
+        LOG.warn("Authentication try ...");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        LOG.warn("Authentication granted !");
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        LOG.warn("JWT token generation ...");
         String jwt = jwtUtils.generateJwtToken(authentication);
+        LOG.warn("JWT token generated !");
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 

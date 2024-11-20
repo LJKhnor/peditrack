@@ -24,7 +24,7 @@ spring:
     show-sql: true
     open-in-view: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         jdbc:
@@ -34,7 +34,7 @@ spring:
           types:
             print:
               banner: false
-        format_sql: false
+        format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5435/peditrack
@@ -53,10 +53,9 @@ spring:
       platform: postgresql
 logging:
   level:
-    root: debug
-    web: debug
-    hibernate: trace
-    tomcat: error
+    root: info
+    web: info
+    tomcat: info
 jwt:
   secret: mySecretKey
   expirationMs: 86400000

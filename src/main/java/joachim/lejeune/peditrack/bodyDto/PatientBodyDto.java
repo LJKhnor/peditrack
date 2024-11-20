@@ -20,6 +20,7 @@ public class PatientBodyDto {
     private String doctor;
     private String mutual;
     private String comments;
+    private Long UserId;
 
     // informations médicales
     @JsonProperty("groupType")
@@ -69,6 +70,14 @@ public class PatientBodyDto {
     private String advice;
 
     public PatientBodyDto() {
+    }
+
+    public Long getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(Long userId) {
+        UserId = userId;
     }
 
     public String getCirculationType() {

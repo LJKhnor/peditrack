@@ -1,8 +1,10 @@
 package joachim.lejeune.peditrack.controller.user;
 
+import jakarta.validation.Valid;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.dto.UserDto;
 import joachim.lejeune.peditrack.dto.factory.UserDtoFactory;
+import joachim.lejeune.peditrack.exceptions.UserAlreadyExistException;
 import joachim.lejeune.peditrack.model.user.User;
 import joachim.lejeune.peditrack.service.UserService;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://127.0.0.1:5000", maxAge = 3600)
 @RestController
+@RequestMapping("/api/users")
 public class UserController {
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
@@ -28,6 +31,7 @@ public class UserController {
 
     /**
      * Get all the user
+     *
      * @return a list of user
      */
     @GetMapping("/users/all")
@@ -41,6 +45,7 @@ public class UserController {
 
     /**
      * Verify if the user already exist
+     *
      * @param email    of the user
      * @param username of the user
      * @return boolean
@@ -63,5 +68,18 @@ public class UserController {
         LOG.info("Enter method createUser");
         User user = userService.createUser(userBodyDto);
         return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserBodyDto userBodyDto) {
+        LOG.info("Enter method registerUser");
+        try {
+            User user = userService.createUser(userBodyDto);
+            return ResponseEntity.ok("User registered successfully: " + user.getUsername());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (UserAlreadyExistException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

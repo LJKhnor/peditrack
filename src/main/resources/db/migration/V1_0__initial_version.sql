@@ -55,17 +55,10 @@ CREATE TABLE IF NOT EXISTS health (
 -- Table: User
 CREATE TABLE IF NOT EXISTS "user" (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100),
-    firstname VARCHAR(100),
+    username VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(100)
 );
 
-CREATE TABLE roles (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(20) NOT NULL
-);
-
-INSERT INTO roles (name) VALUES ('ROLE_USER');
-INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 

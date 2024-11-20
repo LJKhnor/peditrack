@@ -1,18 +1,16 @@
 package joachim.lejeune.peditrack.service;
 
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
-import joachim.lejeune.peditrack.model.enums.DiabeteType;
-import joachim.lejeune.peditrack.model.enums.GroupType;
-import joachim.lejeune.peditrack.model.patient.Health;
+import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.model.patient.Patient;
+import joachim.lejeune.peditrack.model.user.User;
 import joachim.lejeune.peditrack.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Service class for handling business logic related to Patient operations.
@@ -27,9 +25,10 @@ public class PatientService {
      * Creates a new patient in the system.
      *
      * @param patientBodyDto The patient entity to create.
+     * @param userDetails
      * @return The saved patient entity.
      */
-    public Patient createPatient(PatientBodyDto patientBodyDto) {
+    public Patient createPatient(PatientBodyDto patientBodyDto, UserDetailsImpl userDetails) {
         Patient patient = new Patient();
         patient.setName(patientBodyDto.getName());
         patient.setFirstName(patientBodyDto.getFirstname());
@@ -43,6 +42,7 @@ public class PatientService {
         patientBodyDto.getComments().ifPresent(patient::setComments);
         patientBodyDto.getAddress().ifPresent(patient::setAddress);
         patientBodyDto.getMutual().ifPresent(patient::setMutual);
+        patient.setUser(userDetails.getUser());
 
         return patientRepository.save(patient);
     }
@@ -106,6 +106,10 @@ public class PatientService {
         } else {
             throw new RuntimeException("Patient not found with id " + id);
         }
+    }
+
+    public List<Patient> findByUser(User user) {
+        return patientRepository.findByUser(user);
     }
 }
 
