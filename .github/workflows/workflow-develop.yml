@@ -30,7 +30,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
       - name: Set up docker env for testing
         run: docker-compose up -d
+      - name: Run integration tests
+        run: docker-compose exec peditrack test
       - name: Run the Maven verify phase
         run: mvn --batch-mode --update-snapshots verify
