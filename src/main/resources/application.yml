@@ -13,7 +13,7 @@ spring:
   main:
     allow-circular-references: true
   profiles:
-    active:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   application:
     name: pedimed
   data:
@@ -38,9 +38,9 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/pedimed
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5432/${DB_URL_DEV}
+    username: ${DB_USERNAME_DEV}
+    password: ${DB_PASSWORD_DEV}
     hikari:
       pool-name: pedimed
       register-mbeans: true
@@ -72,14 +72,19 @@ spring:
   application:
     name: pedimed-dev
   datasource:
+    url: jdbc:postgresql://${DB_URL_DEV}
+    username: ${DB_USERNAME_DEV}
+    password: ${DB_PASSWORD_DEV}
     hikari:
-      maximum-pool-size: 4
+      pool-name: pedimed
+      register-mbeans: true
+      maximum-pool-size: 8
   jpa:
     show-sql: true
 
 logging:
   level:
-    root: trace
+    root: info
 ---
 #################################################################
 #                              PROD                             #
@@ -89,12 +94,21 @@ spring:
     activate:
       on-profile: prod
   application:
-    name: pedimedschbloub
+    name: pedimed
   flyway:
     user: postgres
     password: postgres
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_URL_PROD}
+    username: ${DB_USERNAME_PROD}
+    password: ${DB_PASSWORD_PROD}
+    hikari:
+      pool-name: pedimed
+      register-mbeans: true
+      maximum-pool-size: 8
 
 logging:
   level:
-    root: trace
+    root: warn
 
