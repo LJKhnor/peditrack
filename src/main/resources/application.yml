@@ -15,7 +15,7 @@ spring:
   profiles:
     active:
   application:
-    name: peditrack
+    name: pedimed
   data:
     jpa:
       repositories:
@@ -42,7 +42,7 @@ spring:
     username: postgres
     password: postgres
     hikari:
-      pool-name: peditrack
+      pool-name: pedimed
       register-mbeans: true
       maximum-pool-size: 8
   flyway:
@@ -70,7 +70,7 @@ spring:
     activate:
       on-profile: dev
   application:
-    name: peditrack-dev
+    name: pedimed-dev
   datasource:
     hikari:
       maximum-pool-size: 4
@@ -89,7 +89,7 @@ spring:
     activate:
       on-profile: prod
   application:
-    name: peditrack
+    name: pedimedschbloub
   flyway:
     user: postgres
     password: postgres
