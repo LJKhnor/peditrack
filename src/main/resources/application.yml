@@ -27,6 +27,10 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        dialect=org:
+          hibernate:
+            dialect:
+              PostgreSQLDialect:
         jdbc:
           time_zone: UTC
         order_by:
