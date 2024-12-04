@@ -37,7 +37,7 @@ spring:
         format_sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5435/peditrack
+    url: jdbc:postgresql://localhost:5432/pedimed
     username: postgres
     password: postgres
     hikari:
