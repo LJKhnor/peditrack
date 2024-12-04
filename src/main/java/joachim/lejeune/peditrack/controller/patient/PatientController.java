@@ -11,6 +11,7 @@ import joachim.lejeune.peditrack.model.patient.Health;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.service.HealthService;
 import joachim.lejeune.peditrack.service.PatientService;
+import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

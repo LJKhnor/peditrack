@@ -3,16 +3,29 @@ package joachim.lejeune.peditrack.controller.patient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
+import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
+import joachim.lejeune.peditrack.model.user.User;
+import joachim.lejeune.peditrack.repository.UserRepository;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -24,24 +37,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SqlConfig(encoding = "UTF-8")
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {
         "/joachim.lejeune.peditrack/clean-all.sql",
-        "/joachim.lejeune.peditrack/controller/patient/create_patient.sql"})
+        "/joachim.lejeune.peditrack/controller/create_base.sql"})
 class PatientControllerIT extends ApplicationControllerIT {
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-    @Autowired
-    private ObjectMapper objectMapper;
-    private MockMvc mockMvc;
 
 
-    @BeforeEach
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    }
+
+
+
 
     @Test
     void getPatients() throws Exception {
-        this.mockMvc.perform(get("/patients").contentType("application/json"))
+        mockMvc.perform(get("/patients").contentType("application/json"))
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -60,11 +67,11 @@ class PatientControllerIT extends ApplicationControllerIT {
 
                 .andExpect(status().isOk())
 
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.name", is("lejeune")))
-                .andExpect(jsonPath("$.firstname", is("joachim")))
-                .andExpect(jsonPath("$.personOfContact", is("lizen valériane")))
-                .andExpect(jsonPath("$.doctor", is("Smeets Morgane")))
+                .andExpect(jsonPath("$.patientDto.id", is(1)))
+                .andExpect(jsonPath("$.patientDto.name", is("lejeune")))
+                .andExpect(jsonPath("$.patientDto.firstname", is("joachim")))
+                .andExpect(jsonPath("$.patientDto.personOfContact", is("lizen valériane")))
+                .andExpect(jsonPath("$.patientDto.doctor", is("Smeets Morgane")))
         ;
     }
 
@@ -101,6 +108,22 @@ class PatientControllerIT extends ApplicationControllerIT {
     @Test
     @Disabled
     void updatePatient() throws Exception {
+        PatientBodyDto patientBodyDto = getPatientBodyDto();
+
+        // Convertir en JSON
+        String patientJson = objectMapper.writeValueAsString(patientBodyDto);
+
+        // Simuler l'appel POST et vérifier les résultats
+        mockMvc.perform(put("/patients/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patientJson))
+                .andExpect(status().isOk())
+                .andDo(print());
+//                .andExpect(jsonPath("$.id").value(1))
+//                .andExpect(jsonPath("$.groupType").value("LOW_RISK"));
+    }
+
+    private static @NotNull PatientBodyDto getPatientBodyDto() {
         PatientBodyDto patientBodyDto = new PatientBodyDto();
         patientBodyDto.setName("Lejeune");
         patientBodyDto.setFirstname("Joachim");
@@ -120,6 +143,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         patientBodyDto.setWithHeartDisorder(true);
         patientBodyDto.setAllergies("aucune");
         patientBodyDto.setDrugs("aucun");
+
 //        patientBodyDto.setFootType("Creux");
 //        patientBodyDto.setSweatType("Hyperhydrose");
 //        patientBodyDto.setRemarkType("Cors");
@@ -132,18 +156,6 @@ class PatientControllerIT extends ApplicationControllerIT {
 //        patientBodyDto.setMaterialsUsed("habituel");
 //        patientBodyDto.setPossibleInjuries("aucune");
 //        patientBodyDto.setAdvice("aucun");
-
-
-        // Convertir en JSON
-        String patientJson = objectMapper.writeValueAsString(patientBodyDto);
-
-        // Simuler l'appel POST et vérifier les résultats
-        mockMvc.perform(put("/patients/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(patientJson))
-                .andExpect(status().isOk())
-                .andDo(print());
-//                .andExpect(jsonPath("$.id").value(1))
-//                .andExpect(jsonPath("$.groupType").value("LOW_RISK"));
+        return patientBodyDto;
     }
 }

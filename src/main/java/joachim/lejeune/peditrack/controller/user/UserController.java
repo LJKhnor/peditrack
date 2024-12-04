@@ -50,7 +50,7 @@ public class UserController {
      * @param username of the user
      * @return boolean
      */
-    @GetMapping("/users/exist")
+    @GetMapping("/exist")
     public boolean userAlreadyExist(@RequestParam(value = "email") String email, @RequestParam(value = "username") String username) {
         LOG.trace("Enter method userAlreadyExist");
 

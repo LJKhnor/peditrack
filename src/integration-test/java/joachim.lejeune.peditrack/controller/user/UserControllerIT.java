@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SqlConfig(encoding = "UTF-8")
 @Sql(executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD, scripts = {
         "/joachim.lejeune.peditrack/clean-all.sql",
-        "/joachim.lejeune.peditrack/controller/user/create_user.sql"})
+        "/joachim.lejeune.peditrack/controller/create_base.sql"})
 public class UserControllerIT extends ApplicationControllerIT {
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -34,21 +34,12 @@ public class UserControllerIT extends ApplicationControllerIT {
 
     @Test
     void userAlreadyExist() throws Exception {
-        this.mockMvc.perform(get("/users/exist")
+        this.mockMvc.perform(get("/api/users/exist")
                         .contentType("application/json")
-                        .param("email", "joachim@test.be")
-                        .param("username", "joachim"))
+                        .param("email", "lejeunejoachim@hotmail.com")
+                        .param("username", "admin"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(false)))
+                .andExpect(jsonPath("$", is(true)))
         ;
-    }
-
-    @Test
-    void createUser() throws Exception {
-        UserBodyDto userBodyDto = new UserBodyDto("jojo", "123", "jojo@test.be");
-        this.mockMvc.perform(post("/user")
-                        .contentType("application/json")
-                        .content(objectMapper().writeValueAsString(userBodyDto)))
-                .andExpect(status().isOk());
     }
 }
