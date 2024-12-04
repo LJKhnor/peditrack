@@ -45,5 +45,13 @@ jobs:
           echo "Deployment Description: ${{ github.event.inputs.description }}"
           echo "PWD: $(pwd)"
       - name: Deploy on Production
-        run: |
-          ssh joachim18@192.168.1.40
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: your-server-ip
+          username: yourusername
+          key: ${{ SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/www/pedimed/peditrack
+            git pull origin main
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
