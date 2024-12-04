@@ -36,8 +36,11 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    public SecurityConfig(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -70,9 +73,4 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(userDetails);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        return new BCryptPasswordEncoder();
-    }
 }
