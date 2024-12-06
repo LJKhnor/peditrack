@@ -41,9 +41,11 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
-            git pull origin master
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull && \
+            git fetch origin main
+            git reset --hard origin/main
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
       - name: Check service health
         run: curl -f http://81.241.109.28/health || exit 1
