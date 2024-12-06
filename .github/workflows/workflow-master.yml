@@ -38,12 +38,17 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: 81.241.109.28
-          username: root
+          username: joachim18
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          timeout: 60s
+          port: 22
           script: |
+            echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
-            git pull origin master
-            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull && \
+            echo ls -l /var/www/pedimed/peditrack
+            git fetch origin master
+            git reset --hard origin/master
+            docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
       - name: Check service health
         run: curl -f http://81.241.109.28/health || exit 1
