@@ -37,7 +37,7 @@ jobs:
       - name: Deploy on Production
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: pedimed.ddns.net
+          host: 81.241.109.28
           username: joachim18
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           timeout: 60s
