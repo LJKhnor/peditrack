@@ -43,8 +43,8 @@ jobs:
           script: |
             echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
-            git fetch origin main
-            git reset --hard origin/main
+            git fetch origin master
+            git reset --hard origin/master
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
       - name: Check service health
