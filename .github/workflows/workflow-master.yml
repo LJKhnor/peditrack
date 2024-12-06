@@ -38,7 +38,7 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: 81.241.109.28
-          username: root
+          username: joachim18
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Déploiement en cours..."
