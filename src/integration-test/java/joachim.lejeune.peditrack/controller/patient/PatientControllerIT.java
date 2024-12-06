@@ -40,15 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "/joachim.lejeune.peditrack/controller/create_base.sql"})
 class PatientControllerIT extends ApplicationControllerIT {
 
-
-
-
-
-
+    private final String apiBaseUrl = "/api";
 
     @Test
     void getPatients() throws Exception {
-        mockMvc.perform(get("/patients").contentType("application/json"))
+        mockMvc.perform(get(apiBaseUrl + "/patients").contentType("application/json"))
 
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
@@ -63,7 +59,7 @@ class PatientControllerIT extends ApplicationControllerIT {
 
     @Test
     void getPatient_byId() throws Exception {
-        this.mockMvc.perform(get("/patients/1"))
+        this.mockMvc.perform(get(apiBaseUrl + "/patients/1"))
 
                 .andExpect(status().isOk())
 
@@ -96,7 +92,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         String patientJson = objectMapper.writeValueAsString(patientBodyDto);
 
         // Simuler l'appel POST et vérifier les résultats
-        mockMvc.perform(post("/patients")
+        mockMvc.perform(post(apiBaseUrl + "/patients")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(patientBodyDto)))  // Envoyer les données JSON
                 .andExpect(status().isCreated())  // Vérifier que le statut est 201 (Created)
@@ -114,7 +110,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         String patientJson = objectMapper.writeValueAsString(patientBodyDto);
 
         // Simuler l'appel POST et vérifier les résultats
-        mockMvc.perform(put("/patients/1")
+        mockMvc.perform(put(apiBaseUrl + "/patients/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientJson))
                 .andExpect(status().isOk())

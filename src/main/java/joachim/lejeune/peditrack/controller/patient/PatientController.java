@@ -25,6 +25,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 
 @RestController
+@RequestMapping("/api")
 public class PatientController {
     private static final Logger LOG = LoggerFactory.getLogger(PatientController.class);
     private final PatientService patientService;

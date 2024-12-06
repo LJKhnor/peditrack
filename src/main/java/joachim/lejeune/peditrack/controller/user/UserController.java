@@ -34,7 +34,7 @@ public class UserController {
      *
      * @return a list of user
      */
-    @GetMapping("/users/all")
+    @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getUsers() {
         LOG.trace("Enter getUsers method");
         List<User> users = userService.findAllUser();
@@ -63,7 +63,7 @@ public class UserController {
      * @param userBodyDto that provide info for the new user
      * @return the response that contain the new user
      */
-    @PostMapping("/user")
+    @PostMapping("/")
     public ResponseEntity<UserDto> createUser(@RequestBody UserBodyDto userBodyDto) throws Exception {
         LOG.info("Enter method createUser");
         User user = userService.createUser(userBodyDto);
