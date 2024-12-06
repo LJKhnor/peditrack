@@ -37,10 +37,10 @@ jobs:
       - name: Deploy on Production
         uses: appleboy/ssh-action@v0.1.6
         with:
-          host: 81.241.109.28
+          host: pedimed.ddns.net
           username: joachim18
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          timeout: 600s
+          timeout: 60s
           script: |
             echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
