@@ -41,6 +41,7 @@ jobs:
           username: joachim18
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           timeout: 60s
+          port: 22
           script: |
             echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
