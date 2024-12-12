@@ -45,7 +45,6 @@ jobs:
           script: |
             echo "Déploiement en cours..."
             cd /var/www/pedimed/peditrack
-            echo ls -l /var/www/pedimed/peditrack
             git fetch origin master
             git reset --hard origin/master
             docker-compose -f docker-compose.yml -f docker-compose.prod.yml pull
