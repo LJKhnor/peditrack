@@ -95,7 +95,7 @@ spring:
     password: postgres
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:8086/pedimed
+    url: jdbc:postgresql://localhost:5435/pedimed
     username: postgres
     password: postgres
     hikari:

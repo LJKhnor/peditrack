@@ -174,7 +174,6 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>9.17.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

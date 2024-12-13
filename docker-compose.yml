@@ -8,9 +8,9 @@ services:
     ports:
       - '5432:5432'
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
       POSTGRES_DB: pedimed
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     pull_policy: always
 volumes:
   pedimed_pgdata:

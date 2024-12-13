@@ -3,6 +3,24 @@ services:
   app:
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      - peditrack-db
+    networks:
+      - default
+
+  peditrack-db:
+    image: 'postgres:14.5'
+    container_name: pedimed_postgres
+    volumes:
+      - pedimed_pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: pedimed
+    pull_policy: always
+
 volumes:
   pedimed_pgdata:
 networks:
