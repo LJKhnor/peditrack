@@ -106,5 +106,4 @@ spring:
 logging:
   level:
     root: warn
-    tomcat: error
 
