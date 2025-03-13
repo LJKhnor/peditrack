@@ -77,6 +77,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         PatientBodyDto patientBodyDto = new PatientBodyDto();
         patientBodyDto.setName("Autre");
         patientBodyDto.setFirstname("Personne");
+        patientBodyDto.setBirthdate("18-12-1987");
         patientBodyDto.setPhoneNum("0474893021");
         patientBodyDto.setAddress("chaussée de marche 250 5100 jambes");
         patientBodyDto.setBirthdate("1987-12-18T00:00:00.000Z");
@@ -98,7 +99,9 @@ class PatientControllerIT extends ApplicationControllerIT {
                 .andExpect(status().isCreated())  // Vérifier que le statut est 201 (Created)
                 .andDo(print())
                 .andExpect(jsonPath("$.name").value("Autre"))  // Vérifier que la réponse contient les bonnes données
-                .andExpect(jsonPath("$.firstname").value("Personne"));
+                .andExpect(jsonPath("$.firstname").value("Personne"))
+                .andExpect(jsonPath("$.name").value("Autre"))
+                .andExpect(jsonPath("$.birthdate").value("1987-12-18T00:00:00Z"));
     }
 
     @Test
@@ -123,6 +126,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         PatientBodyDto patientBodyDto = new PatientBodyDto();
         patientBodyDto.setName("Lejeune");
         patientBodyDto.setFirstname("Joachim");
+        patientBodyDto.setBirthdate("18/12/1987");
         patientBodyDto.setPhoneNum("0474893021");
         patientBodyDto.setAddress("chaussée de marche 250 5100 jambes");
         patientBodyDto.setBirthdate("1987-12-18T00:00:00.000Z");
