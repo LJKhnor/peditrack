@@ -3,6 +3,7 @@ package joachim.lejeune.peditrack.dto;
 import joachim.lejeune.peditrack.model.enums.*;
 import joachim.lejeune.peditrack.model.patient.Health;
 
+import java.awt.geom.Point2D;
 import java.time.OffsetDateTime;
 
 public class PatientDto {
@@ -19,6 +20,7 @@ public class PatientDto {
     private String doctor;
     private String mutual;
     private String comments;
+    private Point2D point;
 
 
     public PatientDto() {
@@ -129,4 +131,7 @@ public class PatientDto {
     }
 
 
+    public void setPosition(Point2D point2D) {
+        this.point = point2D;
+    }
 }

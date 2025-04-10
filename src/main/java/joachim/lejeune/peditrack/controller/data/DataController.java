@@ -1,8 +1,6 @@
 package joachim.lejeune.peditrack.controller.data;
 
-import joachim.lejeune.peditrack.Utility;
 import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
-import joachim.lejeune.peditrack.controller.patient.PatientController;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.service.PatientService;
 import org.slf4j.Logger;
@@ -29,19 +27,12 @@ public class DataController {
     }
 
     @GetMapping("/map")
-    public ResponseEntity<List<Point2D>> getAllGeolocalistionDataMapForUser(){
+    public ResponseEntity<List<Point2D>> getAllGeolocalistionDataMapForUser() {
         LOG.info("Enter method getAllGeolocalistionDataMapForUser");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Patient> allPatients = patientService.findByUser(userDetails.getUser());
         List<Point2D> points2DSDto = new ArrayList<>();
-        List<String> addresses = allPatients.stream().map(patient -> {
-            LOG.info(patient.getAddress());
-            return patient.getAddress();
-        }).toList();
 
-        addresses.stream().map(s -> {
-            return Utility.AdresseConverter(s);
-        })
 
         return new ResponseEntity<>(points2DSDto, HttpStatus.OK);
     }

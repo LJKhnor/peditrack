@@ -1,5 +1,6 @@
 package joachim.lejeune.peditrack.dto.factory;
 
+import joachim.lejeune.peditrack.Utility;
 import joachim.lejeune.peditrack.dto.PatientDto;
 import joachim.lejeune.peditrack.model.patient.Health;
 import joachim.lejeune.peditrack.model.patient.Patient;
@@ -25,6 +26,8 @@ public class PatientDtoFactory {
         dto.setDoctor(patient.getDoctor());
         dto.setMutual(patient.getMutual());
         dto.setComments(patient.getComments());
+
+//        dto.setPosition(Utility.AdresseConverter(patient.getAddress()));
 
         return dto;
     }

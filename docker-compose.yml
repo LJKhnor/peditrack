@@ -1,10 +1,11 @@
 version: '3.8'
 services:
   peditrack-db:
-    image: 'postgres:14.5'
+    image: 'postgis/postgis:14-3.3'
     container_name: pedimed_postgres
     volumes:
       - pedimed_pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - '5432:5432'
     environment:

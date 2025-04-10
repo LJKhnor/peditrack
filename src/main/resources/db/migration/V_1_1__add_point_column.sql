@@ -1,0 +1,2 @@
+ALTER TABLE patient
+ADD COLUMN point POINT;
