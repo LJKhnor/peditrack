@@ -3,6 +3,7 @@ package joachim.lejeune.peditrack.model.patient;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import joachim.lejeune.peditrack.model.user.User;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

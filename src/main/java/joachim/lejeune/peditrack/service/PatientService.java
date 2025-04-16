@@ -91,7 +91,10 @@ public class PatientService {
                     updatedPatient.getComments().ifPresent(patient::setComments);
 
                     // erase location point for the next tic of Nominatim to update the new geolocation point for the new address
-                    patient.setPoint(null,null);
+                    if(!patient.getAddress().equals(updatedPatient.getAddress())){
+                        patient.setPoint(null,null);
+                        updatedPatient.getAddress().ifPresent(patient::setAddress);
+                    }
 
                     return patientRepository.save(patient);
                 }).orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
