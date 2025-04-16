@@ -130,11 +130,28 @@
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
-<!--		Geocoding-->
+<!--		Geocoding  https://github.com/AtlisInc/Nominatim-API?tab=readme-ov-file-->
+<!--		<dependency>-->
+<!--			<groupId>me.atlis</groupId>-->
+<!--			<artifactId>nominatim-api</artifactId>-->
+<!--			<version>RELEASE</version>-->
+<!--		</dependency>-->
 		<dependency>
-			<groupId>me.atlis</groupId>
+			<groupId>fr.dudie</groupId>
 			<artifactId>nominatim-api</artifactId>
-			<version>RELEASE</version>
+			<version>3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
 		</dependency>
 
 	</dependencies>

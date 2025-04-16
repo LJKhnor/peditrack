@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -47,13 +48,19 @@ public class PatientController {
 
         List<PatientDto> patientDtos = patientService.findByUser(userDetails.getUser())
                 .stream()
-                .map(patient -> patientDtoFactory.convert(patient))
+                .map(patient -> {
+                    try {
+                        return patientDtoFactory.convert(patient);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .toList();
         return new ResponseEntity<>(patientDtos, HttpStatus.OK);
     }
 
     @GetMapping("/patients/{patientId}")
-    public ResponseEntity<PatientRecordDto> getPatient(@PathVariable(value = "patientId") Long patientId) throws PatientNotFoundException {
+    public ResponseEntity<PatientRecordDto> getPatient(@PathVariable(value = "patientId") Long patientId) throws PatientNotFoundException, IOException {
         LOG.info("Enter method getPatient");
 
         Patient patient = patientService.getPatientById(patientId);
@@ -66,7 +73,7 @@ public class PatientController {
     }
 
     @PostMapping("/patients")
-    public ResponseEntity<PatientDto> createPatient(@RequestBody PatientBodyDto patientBodyDto) {
+    public ResponseEntity<PatientDto> createPatient(@RequestBody PatientBodyDto patientBodyDto) throws IOException {
         LOG.info("Enter method createPatient");
         assertNotNull("Patient name must be not null",patientBodyDto.getName());
         assertNotNull("Patient firstname must be not null", patientBodyDto.getFirstname());
@@ -86,7 +93,7 @@ public class PatientController {
     @PutMapping("/patients/{patientId}")
     public ResponseEntity<PatientDto> updatePatient(
             @PathVariable(value = "patientId") Long patientId,
-            @RequestBody PatientBodyDto patientBodyDto) {
+            @RequestBody PatientBodyDto patientBodyDto) throws IOException {
 
         LOG.info("Enter method updatePatient");
 

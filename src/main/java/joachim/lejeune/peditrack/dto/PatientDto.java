@@ -130,6 +130,13 @@ public class PatientDto {
         this.comments = comments;
     }
 
+    public Point2D getPoint() {
+        return point;
+    }
+
+    public void setPoint(Point2D point) {
+        this.point = point;
+    }
 
     public void setPosition(Point2D point2D) {
         this.point = point2D;

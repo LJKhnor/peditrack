@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import joachim.lejeune.peditrack.model.user.User;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "Patient",
@@ -65,6 +68,12 @@ public class Patient {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false) // La clé étrangère vers User
     private User user;
+
+    @Column(name = "pointX")
+    private Double pointX;
+
+    @Column(name = "pointY")
+    private Double pointY;
 
     public Patient() {
     }
@@ -205,6 +214,7 @@ public class Patient {
         this.mutual = mutual;
     }
 
+
     public void addHealthRecord(Health health) {
         if(this.healthRecords != null){
             this.healthRecords.add(health);
@@ -225,5 +235,17 @@ public class Patient {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Point2D getPoint2D(){
+        return new Point2D.Double(this.pointX, this.pointY);
+    }
+    public void setPoint(Double pointXValue, Double pointYValue){
+        this.pointX = pointXValue;
+        this.pointY = pointYValue;
+    }
+
+    public boolean hasCoordinates() {
+        return this.pointX != null && this.pointY != null;
     }
 }

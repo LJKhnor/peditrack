@@ -1,31 +1,13 @@
 package joachim.lejeune.peditrack.controller.patient;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
-import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
-import joachim.lejeune.peditrack.model.user.User;
-import joachim.lejeune.peditrack.repository.UserRepository;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;

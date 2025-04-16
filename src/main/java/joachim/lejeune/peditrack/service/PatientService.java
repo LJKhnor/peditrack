@@ -90,6 +90,9 @@ public class PatientService {
                     updatedPatient.getMutual().ifPresent(patient::setMutual);
                     updatedPatient.getComments().ifPresent(patient::setComments);
 
+                    // erase location point for the next tic of Nominatim to update the new geolocation point for the new address
+                    patient.setPoint(null,null);
+
                     return patientRepository.save(patient);
                 }).orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
     }
@@ -110,6 +113,10 @@ public class PatientService {
 
     public List<Patient> findByUser(User user) {
         return patientRepository.findByUser(user);
+    }
+
+    public void save(Patient patient) {
+        patientRepository.save(patient);
     }
 }
 
