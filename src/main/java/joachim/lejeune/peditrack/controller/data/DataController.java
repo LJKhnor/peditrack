@@ -33,6 +33,10 @@ public class DataController {
         List<Patient> allPatients = patientService.findByUser(userDetails.getUser());
         List<Point2D> points2DSDto = new ArrayList<>();
 
+        for(Patient patient: allPatients){
+            points2DSDto.add(patient.getPoint2D());
+        }
+
 
         return new ResponseEntity<>(points2DSDto, HttpStatus.OK);
     }
