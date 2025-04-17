@@ -238,7 +238,7 @@ public class Patient {
         this.user = user;
     }
 
-    public Point2D getPoint2D(){
+    public Point2D getPoint2D() {
         return new Point2D.Double(this.pointX, this.pointY);
     }
     public void setPoint(Double pointXValue, Double pointYValue){
@@ -247,6 +247,10 @@ public class Patient {
     }
 
     public boolean hasCoordinates() {
+        return this.pointX != null && this.pointY != null;
+    }
+
+    public boolean hasBeenGeoloc() {
         return this.pointX != null && this.pointY != null;
     }
 }

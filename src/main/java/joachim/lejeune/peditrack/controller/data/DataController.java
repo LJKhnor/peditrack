@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/data")
+@RequestMapping("/api/data")
 public class DataController {
     private static final Logger LOG = LoggerFactory.getLogger(DataController.class);
     private final PatientService patientService;
@@ -34,6 +34,7 @@ public class DataController {
         List<Point2D> points2DSDto = new ArrayList<>();
 
         for(Patient patient: allPatients){
+            if(patient.hasBeenGeoloc())
             points2DSDto.add(patient.getPoint2D());
         }
 

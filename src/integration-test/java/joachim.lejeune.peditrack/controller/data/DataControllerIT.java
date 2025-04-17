@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 })
 public class DataControllerIT extends ApplicationControllerIT {
 
-    private final String apiBaseDataMapUrl = "/data/map";
+    private final String apiBaseDataMapUrl = "/api/data/map";
 
     @Test
     void getAllGeolocalistionDataMapForUser_IT() throws Exception {
