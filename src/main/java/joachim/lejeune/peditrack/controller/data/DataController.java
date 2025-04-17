@@ -37,7 +37,6 @@ public class DataController {
             points2DSDto.add(patient.getPoint2D());
         }
 
-
         return new ResponseEntity<>(points2DSDto, HttpStatus.OK);
     }
 }
