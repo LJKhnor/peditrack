@@ -91,7 +91,7 @@ public class PatientService {
                     updatedPatient.getComments().ifPresent(patient::setComments);
 
                     // erase location point for the next tic of Nominatim to update the new geolocation point for the new address
-                    if(!patient.getAddress().equals(updatedPatient.getAddress())){
+                    if(patient.getAddress() != null && !patient.getAddress().equals(updatedPatient.getAddress())){
                         patient.setPoint(null,null);
                         updatedPatient.getAddress().ifPresent(patient::setAddress);
                     }
