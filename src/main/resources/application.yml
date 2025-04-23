@@ -55,7 +55,7 @@ logging:
     hibernate: info
 jwt:
   secret: mySecretKey
-  expirationMs: 86400000
+  expirationMs: 28000000
 
 ---
 #################################################################
