@@ -18,10 +18,12 @@ public class UserFactory {
         user.setUsername(userBodyDto.getUsername());
         user.setEmail(userBodyDto.getMail());
         user.setPassword(passwordEncoder.encode(userBodyDto.getPassword()));
+
         user.setRole(Role.USER.name());
-        userBodyDto.getAddress().ifPresent(User::setAddress);
-        userBodyDto.getLocality().ifPresent(User::setLocality);
-        userBodyDto.getPostalCode().ifPresent(User::setPostalCode);
+
+        userBodyDto.getAddress().ifPresent(user::setAddress);
+        userBodyDto.getLocality().ifPresent(user::setLocality);
+        userBodyDto.getPostalCode().ifPresent(user::setPostalCode);
 
         return user;
     }
