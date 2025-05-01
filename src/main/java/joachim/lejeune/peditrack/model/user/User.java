@@ -26,6 +26,13 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Patient> patients;
 
+    @Column(name = "street")
+    private String street;
+    @Column(name="postal_code")
+    private String postalCode;
+    @Column(name="locality")
+    private String locality;
+
     public Long getId() {
         return id;
     }

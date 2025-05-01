@@ -70,6 +70,13 @@ public class UserController {
         return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.CREATED);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<UserDto> upDateUser(@RequestBody UserBodyDto userBodyDto){
+        LOG.info("Enter method upDateUser");
+        User user = userService.updateUser(userBodyDto);
+        return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserBodyDto userBodyDto) {
         LOG.info("Enter method registerUser");

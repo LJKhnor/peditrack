@@ -50,4 +50,9 @@ public class UserService{
     public List<User> findAllUser() {
         return  userRepository.findAll();
     }
+
+    public User updateUser(UserBodyDto userBodyDto) {
+        final User user = userFactory.convert(userBodyDto, passwordEncoder);
+        return userRepository.save(user);
+    }
 }
