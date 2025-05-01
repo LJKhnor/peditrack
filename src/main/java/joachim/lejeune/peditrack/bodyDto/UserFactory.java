@@ -19,6 +19,9 @@ public class UserFactory {
         user.setEmail(userBodyDto.getMail());
         user.setPassword(passwordEncoder.encode(userBodyDto.getPassword()));
         user.setRole(Role.USER.name());
+        user.setAddress(userBodyDto.getAddress());
+        user.setLocality(userBodyDto.getLocality());
+        user.getPostalCode(userBodyDto.getPostalCode());
 
         return user;
     }
