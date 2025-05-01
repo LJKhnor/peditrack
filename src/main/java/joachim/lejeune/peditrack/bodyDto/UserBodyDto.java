@@ -18,6 +18,9 @@ public class UserBodyDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private List<String> roles;
+    private String address;
+    private String locality;
+    private String postalCode;
 
     public UserBodyDto(String name, String password, String email) {
         this.username = name;
@@ -55,5 +58,29 @@ public class UserBodyDto {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

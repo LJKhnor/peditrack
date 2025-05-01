@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<UserDto> upDateUser(@RequestBody UserBodyDto userBodyDto){
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserBodyDto userBodyDto){
         LOG.info("Enter method upDateUser");
         User user = userService.updateUser(userBodyDto);
         return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.OK);
