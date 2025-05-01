@@ -60,24 +60,24 @@ public class UserBodyDto {
         this.mail = mail;
     }
 
-    public String getAddress() {
-        return address;
+    public Optional<String> getAddress() {
+        return Optional.of(address);
     }
 
     public void setAddress(String address) {
         this.address = address;
     }
 
-    public String getLocality() {
-        return locality;
+    public Optional<String> getLocality() {
+        return Optional.of(locality);
     }
 
     public void setLocality(String locality) {
         this.locality = locality;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public Optional<String> getPostalCode() {
+        return Optional.of(postalCode);
     }
 
     public void setPostalCode(String postalCode) {
