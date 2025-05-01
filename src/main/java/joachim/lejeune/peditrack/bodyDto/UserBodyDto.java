@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import joachim.lejeune.peditrack.model.role.Role;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public class UserBodyDto {

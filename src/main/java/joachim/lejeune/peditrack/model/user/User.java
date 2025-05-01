@@ -26,8 +26,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Patient> patients;
 
-    @Column(name = "street")
-    private String street;
+    @Column(name = "address")
+    private String address;
     @Column(name="postal_code")
     private String postalCode;
     @Column(name="locality")
@@ -79,5 +79,17 @@ public class User {
 
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 }
