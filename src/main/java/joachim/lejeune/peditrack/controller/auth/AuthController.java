@@ -5,6 +5,7 @@ import joachim.lejeune.peditrack.model.user.LoginRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,23 +34,27 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
         LOG.info("Enter method authenticateUser for user :", loginRequest.getUsername());
 
         LOG.warn("Authentication try ...");
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        LOG.warn("Authentication granted !");
+        try{
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+            LOG.warn("Authentication granted !");
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            LOG.warn("JWT token generation ...");
+            String jwt = jwtUtils.generateJwtToken(authentication);
+            LOG.warn("JWT token generated !");
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        LOG.warn("JWT token generation ...");
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        LOG.warn("JWT token generated !");
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+            List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-        List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
-
-        return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
+        } catch (Exception e){
+            LOG.warn("Authentication failed !");
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 }
