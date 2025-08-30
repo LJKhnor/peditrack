@@ -22,11 +22,9 @@ public class UserBodyDto {
     private String address;
     private String locality;
     private String postalCode;
+    private String activationCode;
 
-    public UserBodyDto(String name, String password, String email) {
-        this.username = name;
-        this.password = password;
-        this.mail = email;
+    public UserBodyDto() {
     }
 
     public String getUsername() {
@@ -37,8 +35,8 @@ public class UserBodyDto {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public Optional<String> getPassword() {
+        return Optional.of(password);
     }
 
     public List<String> getRoles() {
@@ -83,5 +81,13 @@ public class UserBodyDto {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }

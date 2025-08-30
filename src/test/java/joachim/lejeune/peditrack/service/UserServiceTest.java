@@ -59,7 +59,10 @@ class UserServiceTest {
     @Test
     void shouldThrowExceptionWhenCreatingUserWithExistingUsername() {
         // Arrange
-        UserBodyDto userBodyDto = new UserBodyDto("testuser","123","test@example.com");
+        UserBodyDto userBodyDto = new UserBodyDto();
+        userBodyDto.setUsername("testuser");
+        userBodyDto.setPassword("123");
+        userBodyDto.setMail("test@example.com");
 
         when(userRepository.existsByUsername(userBodyDto.getUsername())).thenReturn(true);
 
@@ -73,7 +76,10 @@ class UserServiceTest {
     @Test
     void shouldCreateUserWhenValid() throws UserAlreadyExistException {
         // Arrange
-        UserBodyDto userBodyDto = new UserBodyDto("newuser","password","newuser@example.com");
+        UserBodyDto userBodyDto = new UserBodyDto();
+        userBodyDto.setUsername("newuser");
+        userBodyDto.setPassword("password");
+        userBodyDto.setMail("newuser@example.com");
 
         User user = new User();
         user.setUsername("newuser");

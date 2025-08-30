@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService{
@@ -51,8 +52,14 @@ public class UserService{
         return  userRepository.findAll();
     }
 
-    public User updateUser(UserBodyDto userBodyDto) {
-        final User user = userFactory.convert(userBodyDto, passwordEncoder);
-        return userRepository.save(user);
+    public User updateUser(Long userId, UserBodyDto userBodyDto) {
+       return  userRepository.findById(userId).map(user -> {
+            user = userFactory.convert(userBodyDto, passwordEncoder);
+            return userRepository.save(user);
+        }).orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+    }
+
+    public Optional<User> findUserById(Long id) {
+        return userRepository.findById(id);
     }
 }

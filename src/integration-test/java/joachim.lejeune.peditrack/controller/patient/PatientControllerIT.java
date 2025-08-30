@@ -77,7 +77,7 @@ class PatientControllerIT extends ApplicationControllerIT {
         // Simuler l'appel POST et vérifier les résultats
         mockMvc.perform(post(apiBaseUrl + "/patients")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(patientBodyDto)))  // Envoyer les données JSON
+                        .content(patientJson))  // Envoyer les données JSON
                 .andExpect(status().isCreated())  // Vérifier que le statut est 201 (Created)
                 .andDo(print())
                 .andExpect(jsonPath("$.name").value("Autre"))  // Vérifier que la réponse contient les bonnes données
@@ -87,7 +87,6 @@ class PatientControllerIT extends ApplicationControllerIT {
     }
 
     @Test
-    @Disabled
     void updatePatient() throws Exception {
         PatientBodyDto patientBodyDto = getPatientBodyDto();
 
