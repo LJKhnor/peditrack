@@ -29,7 +29,9 @@ public class DataController {
     @GetMapping("/map")
     public ResponseEntity<List<Point2D>> getAllGeolocalistionDataMapForUser() {
         LOG.info("Enter method getAllGeolocalistionDataMapForUser");
+
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         List<Patient> allPatients = patientService.findByUser(userDetails.getUser());
         List<Point2D> points2DSDto = new ArrayList<>();
 

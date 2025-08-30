@@ -1,3 +1,3 @@
 ALTER TABLE "user" ADD COLUMN address TEXT;
 ALTER TABLE "user" ADD COLUMN locality TEXT;
-ALTER TABLE "user" ADD COLUMN postal+code numeric;
+ALTER TABLE "user" ADD COLUMN postal_code TEXT;

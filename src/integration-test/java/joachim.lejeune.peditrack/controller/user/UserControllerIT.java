@@ -5,6 +5,7 @@ import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,8 +13,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -41,5 +43,26 @@ public class UserControllerIT extends ApplicationControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(true)))
         ;
+    }
+
+    @Test
+    void updateUser_withAddress() throws Exception{
+        UserBodyDto userBodyDto = getUserBodyDto();
+        String userJson = objectMapper.writeValueAsString(userBodyDto);
+        mockMvc.perform(post("/api/users/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    private static UserBodyDto getUserBodyDto() {
+        UserBodyDto userBodyDto = new UserBodyDto();
+        userBodyDto.setUsername("admin");
+        userBodyDto.setPassword("1234");
+        userBodyDto.setLocality("Jambes");
+        userBodyDto.setPostalCode("5100");
+        userBodyDto.setAddress("chaussée de marche 250");
+        return userBodyDto;
     }
 }

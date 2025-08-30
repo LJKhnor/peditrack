@@ -32,6 +32,8 @@ public class User {
     private String postalCode;
     @Column(name="locality")
     private String locality;
+    @Column(name = "activation_code")
+    private String activationCode;
 
     public Long getId() {
         return id;
@@ -91,5 +93,25 @@ public class User {
 
     public void setLocality(String locality) {
         this.locality = locality;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }
