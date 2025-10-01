@@ -63,7 +63,7 @@ public class UserControllerIT extends ApplicationControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isOk())
-                .andExpect(content().string("User registered successfully: joachim"));
+                .andExpect(content().string("User registered successfully: machin"));
     }
 
     @Test
