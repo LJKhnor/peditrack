@@ -18,6 +18,8 @@ public class UserBodyDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private List<String> roles;
+    private String activationKey;
+
 
     public UserBodyDto(String name, String password, String email) {
         this.username = name;
@@ -55,5 +57,9 @@ public class UserBodyDto {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
     }
 }

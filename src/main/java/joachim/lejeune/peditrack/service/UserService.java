@@ -2,6 +2,7 @@ package joachim.lejeune.peditrack.service;
 
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.bodyDto.UserFactory;
+import joachim.lejeune.peditrack.controller.auth.JwtUtils;
 import joachim.lejeune.peditrack.exceptions.UserAlreadyExistException;
 import joachim.lejeune.peditrack.model.user.User;
 import joachim.lejeune.peditrack.repository.UserRepository;
@@ -12,11 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService{
     private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
+    private static final Pattern KEY_PATTERN = Pattern.compile("^[A-Z0-9]{4}(-[A-Z0-9]{4}){3}$");
 
     private final UserFactory userFactory;
 
@@ -34,6 +37,7 @@ public class UserService{
 
     public User createUser(UserBodyDto userBodyDto) throws UserAlreadyExistException {
         LOG.trace("Enter method createUser");
+        validateKey(dto.getRegistrationKey());
         if (userRepository.existsByUsername(userBodyDto.getUsername())) {
             throw new IllegalArgumentException("Username is already taken.");
         }
@@ -45,6 +49,15 @@ public class UserService{
         LOG.debug("Roles being saved: {}", user.getRole());
 
         return userRepository.save(user);
+    }
+
+    private boolean validateKey(String activationKey) {
+        if(activationKey == null || !KEY_PATTERN.matcher(activationKey).matches()){
+            throw new IllegalArgumentException("Informat key format");
+        }
+        return registrationKeyRepository.findByKeyValue(key)
+                .filter(k -> !k.isUsed() && k.isActive())
+                .orElseThrow(() -> new IllegalArgumentException("Clé non autorisée ou déjà utilisée"));
     }
 
     public List<User> findAllUser() {
