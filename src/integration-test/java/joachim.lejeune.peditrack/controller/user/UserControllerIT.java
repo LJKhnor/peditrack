@@ -1,11 +1,7 @@
 package joachim.lejeune.peditrack.controller.user;
 
-import joachim.lejeune.peditrack.bodyDto.PatientBodyDto;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
-import joachim.lejeune.peditrack.dto.UserDto;
-import joachim.lejeune.peditrack.model.role.Role;
-import joachim.lejeune.peditrack.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +11,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -78,8 +72,6 @@ public class UserControllerIT extends ApplicationControllerIT {
     }
 
     private UserBodyDto getUserBodyDto() {
-        UserBodyDto userBodyDto= new UserBodyDto("machin","abcdefgh", "machin@truc.be");
-        userBodyDto.setRoles(List.of(Role.USER.name()));
-        return userBodyDto;
+        return new UserBodyDto("machin", "abcdefgh", "machin@truc.be");
     }
 }
