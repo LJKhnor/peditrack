@@ -24,6 +24,7 @@ public class UserController {
     private final UserService userService;
     private final UserDtoFactory userDtoFactory;
 
+
     public UserController(UserService userService, UserDtoFactory userDtoFactory) {
         this.userService = userService;
         this.userDtoFactory = userDtoFactory;
@@ -75,6 +76,10 @@ public class UserController {
         LOG.info("Enter method registerUser");
         try {
             User user = userService.createUser(userBodyDto);
+            // 3️⃣ Met à jour la clé
+            key.setUsed(true);
+            key.setUsedByUser(user);
+            keyRepository.save(key);
             return ResponseEntity.ok("User registered successfully: " + user.getUsername());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
