@@ -14,4 +14,5 @@ public interface RegistrationKeyRepository extends JpaRepository<RegistrationKey
     Optional<RegistrationKey> findById(@NotNull Long aLong);
 
     Optional<RegistrationKey> findByKey(String registrationKey);
+
 }

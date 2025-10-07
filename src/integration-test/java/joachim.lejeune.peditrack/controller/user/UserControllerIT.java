@@ -2,6 +2,8 @@ package joachim.lejeune.peditrack.controller.user;
 
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
+import joachim.lejeune.peditrack.model.user.RegistrationKey;
+import joachim.lejeune.peditrack.repository.RegistrationKeyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -27,6 +31,8 @@ public class UserControllerIT extends ApplicationControllerIT {
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
+    @Autowired
+    private RegistrationKeyRepository registrationKeyRepository;
 
 
     @BeforeEach
@@ -53,6 +59,8 @@ public class UserControllerIT extends ApplicationControllerIT {
         // Convertir en JSON
         String userJson = objectMapper.writeValueAsString(userBodyDto);
 
+        List<RegistrationKey> all = registrationKeyRepository.findAll();
+
         mockMvc.perform(post("/api/users/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userJson))
@@ -72,6 +80,6 @@ public class UserControllerIT extends ApplicationControllerIT {
     }
 
     private UserBodyDto getUserBodyDto() {
-        return new UserBodyDto("machin", "abcdefgh", "machin@truc.be");
+        return new UserBodyDto("machin", "abcdefgh", "machin@truc.be", "AB12-CD34-EF56-GH78");
     }
 }

@@ -67,7 +67,7 @@ public class UserService{
 
     private Optional<RegistrationKey> validateKey(String activationKey) {
         if(activationKey == null || !KEY_PATTERN.matcher(activationKey).matches()){
-            throw new IllegalArgumentException("Informat key format");
+            throw new IllegalArgumentException("Registration key format");
         }
         Optional<RegistrationKey> registrationKeyOptional = registrationKeyRepository.findByKey(activationKey)
                 .filter(k -> !k.isUsed() && k.isActive());

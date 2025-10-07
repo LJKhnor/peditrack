@@ -21,10 +21,11 @@ public class UserBodyDto {
     private String activationKey;
 
 
-    public UserBodyDto(String name, String password, String email) {
+    public UserBodyDto(String name, String password, String email, String activationKey) {
         this.username = name;
         this.password = password;
         this.mail = email;
+        this.activationKey = activationKey;
     }
 
     public String getUsername() {
