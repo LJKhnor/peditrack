@@ -41,7 +41,7 @@ public class UserService{
 
     public User createUser(UserBodyDto userBodyDto) throws UserAlreadyExistException {
         LOG.trace("Enter method createUser");
-        Optional<RegistrationKey> registrationKey = validateKey(userBodyDto.getActivationKey());
+        Optional<RegistrationKey> registrationKey = validateKey(userBodyDto.getRegistrationKey());
         if (userRepository.existsByUsername(userBodyDto.getUsername())) {
             throw new IllegalArgumentException("Username is already taken.");
         }

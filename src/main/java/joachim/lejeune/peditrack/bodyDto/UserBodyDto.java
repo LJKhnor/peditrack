@@ -3,10 +3,8 @@ package joachim.lejeune.peditrack.bodyDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import joachim.lejeune.peditrack.model.role.Role;
 
 import java.util.List;
-import java.util.Set;
 
 public class UserBodyDto {
     @NotBlank
@@ -18,14 +16,14 @@ public class UserBodyDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private List<String> roles;
-    private String activationKey;
+    private String registrationKey;
 
 
     public UserBodyDto(String name, String password, String email, String activationKey) {
         this.username = name;
         this.password = password;
         this.mail = email;
-        this.activationKey = activationKey;
+        this.registrationKey = activationKey;
     }
 
     public String getUsername() {
@@ -60,7 +58,7 @@ public class UserBodyDto {
         this.mail = mail;
     }
 
-    public String getActivationKey() {
-        return activationKey;
+    public String getRegistrationKey() {
+        return registrationKey;
     }
 }
