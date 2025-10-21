@@ -18,7 +18,7 @@ public class UserFactory {
         user.setUsername(userBodyDto.getUsername());
         user.setEmail(userBodyDto.getMail());
 
-        userBodyDto.getPassword().ifPresent(password -> user.setPassword(passwordEncoder.encode(password)));
+        user.setPassword(passwordEncoder.encode(userBodyDto.getPassword()));
 
         user.setRole(Role.USER.name());
 
