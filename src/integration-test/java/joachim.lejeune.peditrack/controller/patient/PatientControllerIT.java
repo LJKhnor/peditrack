@@ -98,9 +98,8 @@ class PatientControllerIT extends ApplicationControllerIT {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(patientJson))
                 .andExpect(status().isOk())
-                .andDo(print());
-//                .andExpect(jsonPath("$.id").value(1))
-//                .andExpect(jsonPath("$.groupType").value("LOW_RISK"));
+                .andDo(print())
+                .andExpect(jsonPath("$.id").value(1));
     }
 
     private static @NotNull PatientBodyDto getPatientBodyDto() {

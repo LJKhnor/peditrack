@@ -3,11 +3,8 @@ package joachim.lejeune.peditrack.bodyDto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import joachim.lejeune.peditrack.model.role.Role;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 public class UserBodyDto {
     @NotBlank
@@ -19,12 +16,14 @@ public class UserBodyDto {
     @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
     private List<String> roles;
-    private String address;
-    private String locality;
-    private String postalCode;
-    private String activationCode;
+    private String registrationKey;
 
-    public UserBodyDto() {
+
+    public UserBodyDto(String name, String password, String email, String activationKey) {
+        this.username = name;
+        this.password = password;
+        this.mail = email;
+        this.registrationKey = activationKey;
     }
 
     public String getUsername() {
@@ -35,8 +34,8 @@ public class UserBodyDto {
         this.username = username;
     }
 
-    public Optional<String> getPassword() {
-        return Optional.of(password);
+    public String getPassword() {
+        return password;
     }
 
     public List<String> getRoles() {
@@ -59,35 +58,7 @@ public class UserBodyDto {
         this.mail = mail;
     }
 
-    public Optional<String> getAddress() {
-        return Optional.of(address);
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Optional<String> getLocality() {
-        return Optional.of(locality);
-    }
-
-    public void setLocality(String locality) {
-        this.locality = locality;
-    }
-
-    public Optional<String> getPostalCode() {
-        return Optional.of(postalCode);
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
+    public String getRegistrationKey() {
+        return registrationKey;
     }
 }
