@@ -18,6 +18,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:5173"); // Add your Vue.js frontend URL
         config.addAllowedOrigin("https://pedimed.ddns.net");
+        config.addAllowedOrigin("https://pedimed-pro.be");
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(true);
