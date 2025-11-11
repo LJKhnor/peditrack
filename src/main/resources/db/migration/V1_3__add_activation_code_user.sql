@@ -1,2 +1,2 @@
 alter table "user"
-add column activation_code text;
+add column IF NOT EXISTS activation_code text;

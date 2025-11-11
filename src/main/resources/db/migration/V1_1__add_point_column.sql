@@ -1,5 +1,5 @@
 ALTER TABLE patient
-ADD COLUMN pointX numeric;
+ADD COLUMN IF NOT EXISTS pointX numeric;
 
 ALTER TABLE patient
-ADD COLUMN pointY numeric;
+ADD COLUMN IF NOT EXISTS pointY numeric;

@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS patient (
     city VARCHAR(25),
     mutual VARCHAR(50)
 );
-CREATE UNIQUE INDEX idx_patient_id on patient(id);
+--CREATE UNIQUE INDEX idx_patient_id on patient(id);
 
 -- Table : Health
 CREATE TABLE IF NOT EXISTS health (
