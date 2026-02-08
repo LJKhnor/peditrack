@@ -31,7 +31,7 @@ public class NominatimScheduler {
         for (Patient patient : patients) {
             if (!patient.hasCoordinates()) {
                 try {
-                    Point2D point2D = NominatimUtility.AdresseConverter(patient.getAddress());
+                    Point2D point2D = NominatimUtility.AddressConverter(patient.getAddress());
                     patient.setPoint(point2D.getX(), point2D.getY());
                     patientService.save(patient);
 
