@@ -73,7 +73,7 @@ spring:
     user: postgres
     password: postgres
   datasource:
-    url: jdbc:postgresql://localhost:5432/pedimed
+    url: jdbc:postgresql://postgres:5435/pedimed
     username: postgres
     password: postgres
     hikari:
