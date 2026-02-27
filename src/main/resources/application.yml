@@ -1,5 +1,6 @@
 server:
   port: 8085
+  address: 0.0.0.0
   error:
     whitelabel:
       enabled: false
@@ -54,8 +55,8 @@ logging:
     web: info
     tomcat: info
     hibernate: info
-    org.springframework.orm.jpa: debug
-    org.hibernate: debug
+    org.springframework.orm.jpa: info
+    org.hibernate: info
 jwt:
   secret: mySecretKey
   expirationMs: 28000000
