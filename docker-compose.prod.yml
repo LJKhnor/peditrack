@@ -14,9 +14,9 @@ services:
     volumes:
       - pedimed_pgdata:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - '5435:5432'
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: postgres_pwd
       POSTGRES_USER: postgres
       POSTGRES_DB: pedimed
     pull_policy: always

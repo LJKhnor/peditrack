@@ -99,12 +99,12 @@ spring:
     name: pedimed
   flyway:
     user: postgres
-    password: postgres
+    password: postgres_pwd
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5435/pedimed
     username: postgres
-    password: postgres
+    password: postgres_pwd
     hikari:
       pool-name: pedimed
       register-mbeans: true
