@@ -39,7 +39,8 @@ public class NominatimUtility {
     private static @NotNull JSONArray getResultAddressList(String endpointUrl) throws IOException {
         HttpURLConnection conn = (HttpURLConnection) new URL(endpointUrl).openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("User-Agent", "VotreApplication/1.0 (votre.email@example.com)");
+        // ✅ Valeurs réelles
+        conn.setRequestProperty("User-Agent", "PediTrack/1.0 (joachim.lejeune.dev@gmail.com)");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String inputLine;
