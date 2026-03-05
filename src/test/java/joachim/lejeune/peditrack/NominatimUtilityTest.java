@@ -20,5 +20,8 @@ class NominatimUtilityTest {
         Point2D point2D = NominatimUtility.AddressConverter("chaussée de marche 250 5100 jambes");
         assertNotNull(point2D.getX());
         assertNotNull(point2D.getY());
+
+        assertNotEquals(point2D.getX(), 0.0);
+        assertNotEquals(point2D.getY(), 0.0);
     }
 }
