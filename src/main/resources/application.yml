@@ -50,12 +50,11 @@ spring:
       platform: postgresql
 logging:
   level:
-    root: debug
+    root: info
     web: info
     tomcat: info
-    hibernate: info
-    org.springframework.orm.jpa: info
-    org.hibernate: info
+    hibernate: debug
+    org.springframework.orm.jpa: debug
     flywaydb: debug
 jwt:
   secret: mySecretKey
