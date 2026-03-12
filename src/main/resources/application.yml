@@ -50,7 +50,7 @@ spring:
       platform: postgresql
 logging:
   level:
-    root: info
+    root: debug
     web: info
     tomcat: info
     hibernate: info
