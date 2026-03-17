@@ -74,9 +74,9 @@ spring:
     user: postgres
     password: postgres
   datasource:
-    url: jdbc:postgresql://localhost:5435/pedimed
+    url: jdbc:postgresql://localhost:5432/pedimed
     username: postgres
-    password: postgres_pwd
+    password: postgres
     hikari:
       pool-name: pedimed
       register-mbeans: true

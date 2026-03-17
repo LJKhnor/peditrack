@@ -1,0 +1,5 @@
+ALTER TABLE "user"
+ADD COLUMN IF NOT EXISTS pointX numeric;
+
+ALTER TABLE "user"
+ADD COLUMN IF NOT EXISTS pointY numeric;

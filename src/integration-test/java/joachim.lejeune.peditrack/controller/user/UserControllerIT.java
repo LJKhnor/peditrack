@@ -51,6 +51,15 @@ public class UserControllerIT extends ApplicationControllerIT {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("admin")));
     }
+    @Test
+    void getUser_byId() throws Exception {
+
+        mockMvc.perform(get("/api/users/1/info"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.name", is("admin")));
+    }
 
     @Test
     @Disabled

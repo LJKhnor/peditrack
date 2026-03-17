@@ -22,7 +22,7 @@ public class NominatimScheduler {
     public NominatimScheduler(PatientService patientService) {
         this.patientService = patientService;
     }
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 0/4 * * *")
     public void fetchGeolocPositionForPatientAddress() {
         LOG.info("Enter method fetchGeolocPositionForPatientAddress in NominatimScheduler class");
 

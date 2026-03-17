@@ -34,6 +34,11 @@ public class User {
     private String locality;
     @Column(name = "activation_code")
     private String activationCode;
+    @Column(name = "pointX")
+    private Double pointX;
+
+    @Column(name = "pointY")
+    private Double pointY;
 
     public Long getId() {
         return id;
@@ -109,6 +114,14 @@ public class User {
 
     public String getActivationCode() {
         return activationCode;
+    }
+
+    public Double getPointX() {
+        return pointX != null ? pointX : 0.0;
+    }
+
+    public Double getPointY() {
+        return pointY != null ? pointY : 0.0;
     }
 
     public void setActivationCode(String activationCode) {

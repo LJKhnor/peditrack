@@ -5,11 +5,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
     private Long id;
@@ -17,10 +17,11 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
+    private Point2D location;
     private User user;
 
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities, User user) {
+                           Collection<? extends GrantedAuthority> authorities, Point2D location, User user) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -41,8 +42,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
-                user.getPassword(),
-                authorities, user);
+                user.getPassword(), authorities,
+                new Point2D.Double(user.getPointX(), user.getPointY()), user);
     }
 
     @Override
@@ -52,6 +53,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public Long getId() {
         return id;
+    }
+
+    public Point2D getLocation() {
+        return location;
     }
 
     @Override

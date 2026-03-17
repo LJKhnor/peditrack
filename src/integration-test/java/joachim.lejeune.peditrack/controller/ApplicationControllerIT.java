@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -43,6 +44,7 @@ public class ApplicationControllerIT extends PeditrackApplicationIT {
                 "lejeunejoachim@hotmail.com",
                 "1234",
                 authorities,
+                new Point2D.Double(),
                 user);
 
         // Créez une Authentication simulée avec cet utilisateur

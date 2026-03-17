@@ -15,7 +15,7 @@ public class UserDtoFactory {
         dto.setId(user.getId());
         dto.setName(user.getUsername());
         dto.setEmail(user.getEmail());
-        dto.setPassword(user.getPassword());
+//        dto.setPassword(user.getPassword());
         dto.setStreet(user.getAddress());
         dto.setPostalCode(user.getPostalCode());
         dto.setCity(user.getLocality());

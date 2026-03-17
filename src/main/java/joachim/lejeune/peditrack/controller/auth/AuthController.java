@@ -35,7 +35,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) throws Exception {
-        LOG.info("Enter method authenticateUser for user :", loginRequest.getUsername());
+        LOG.info("Enter method authenticateUser for user : {0}", loginRequest.getUsername());
 
         LOG.warn("Authentication try ...");
         try{
@@ -51,7 +51,7 @@ public class AuthController {
 
             List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), roles));
+            return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getLocation(),roles));
         } catch (Exception e){
             LOG.warn("Authentication failed !");
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);

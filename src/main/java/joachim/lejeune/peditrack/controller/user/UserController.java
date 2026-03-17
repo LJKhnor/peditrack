@@ -2,6 +2,7 @@ package joachim.lejeune.peditrack.controller.user;
 
 import jakarta.validation.Valid;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
+import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.dto.UserDto;
 import joachim.lejeune.peditrack.dto.factory.UserDtoFactory;
 import joachim.lejeune.peditrack.exceptions.UserAlreadyExistException;
@@ -11,10 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertNotNull;
 
 @CrossOrigin(origins = "http://127.0.0.1:5000", maxAge = 3600)
 @RestController
@@ -40,7 +45,7 @@ public class UserController {
         LOG.trace("Enter getUsers method");
         List<User> users = userService.findAllUser();
         return new ResponseEntity<>(users.stream()
-                .map(user -> userDtoFactory.convert(user))
+                .map(userDtoFactory::convert)
                 .collect(Collectors.toList()), HttpStatus.ACCEPTED);
     }
 
@@ -82,5 +87,26 @@ public class UserController {
         } catch (UserAlreadyExistException e) {
             throw new RuntimeException(e);
         }
+    }
+    @GetMapping("/{userId}/info")
+    public ResponseEntity<UserDto> getPatient(@PathVariable(value = "userId") Long userId){
+        LOG.info("Enter method getPatient");
+        Optional <User> optionalUser = userService.findUserById(userId);
+
+        return optionalUser.map(user -> new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        }
+    @PostMapping("/{userId}/update")
+    public ResponseEntity<?> updateUser(@PathVariable(value="userId") Long userId, @RequestBody UserBodyDto userBodyDto){
+        LOG.info("Enter method updateUser");
+        assertNotNull("Patient firstname must be not null", userBodyDto.getUsername());
+
+        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        user.getUser().setUsername(userBodyDto.getUsername());
+
+        User userUpdated = userService.saveUser(user.getUser());
+
+        return new ResponseEntity<>(userDtoFactory.convert(userUpdated),HttpStatus.ACCEPTED);
     }
 }
