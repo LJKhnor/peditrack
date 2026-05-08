@@ -2,7 +2,6 @@ package joachim.lejeune.peditrack.model.user;
 
 import jakarta.persistence.*;
 import joachim.lejeune.peditrack.model.patient.Patient;
-import joachim.lejeune.peditrack.model.role.RolesJsonConverter;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class User {
     private List<Patient> patients;
 
     @Column(name = "address")
-    private String address;
+    private String street;
     @Column(name="postal_code")
     private String postalCode;
     @Column(name="locality")
@@ -88,8 +87,8 @@ public class User {
         this.patients = patients;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public void setPostalCode(String postalCode) {
@@ -100,8 +99,8 @@ public class User {
         this.locality = locality;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
     public String getPostalCode() {

@@ -17,6 +17,7 @@ public class UserBodyDto {
     private String password;
     private List<String> roles;
     private String registrationKey;
+    private String street;
 
 
     public UserBodyDto(String name, String password, String email, String activationKey) {
@@ -60,5 +61,13 @@ public class UserBodyDto {
 
     public String getRegistrationKey() {
         return registrationKey;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
     }
 }
