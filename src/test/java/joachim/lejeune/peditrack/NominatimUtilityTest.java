@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-@Disabled
+
 class NominatimUtilityTest {
 
     @BeforeEach
@@ -17,6 +17,7 @@ class NominatimUtilityTest {
     }
 
     @Test
+    @Disabled
     void addressConverter() throws IOException {
         Point2D point2D = NominatimUtility.AddressConverter("chaussée de marche 250 5100 jambes");
         assertNotNull(point2D.getX());
