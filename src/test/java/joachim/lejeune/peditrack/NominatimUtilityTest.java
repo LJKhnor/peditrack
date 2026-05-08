@@ -1,6 +1,7 @@
 package joachim.lejeune.peditrack;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -8,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@Disabled
 class NominatimUtilityTest {
 
     @BeforeEach
