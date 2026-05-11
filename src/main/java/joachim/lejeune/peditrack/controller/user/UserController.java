@@ -2,7 +2,6 @@ package joachim.lejeune.peditrack.controller.user;
 
 import jakarta.validation.Valid;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
-import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.dto.UserDto;
 import joachim.lejeune.peditrack.dto.factory.UserDtoFactory;
 import joachim.lejeune.peditrack.exceptions.UserAlreadyExistException;
@@ -12,14 +11,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertNotNull;
 
 @CrossOrigin(origins = "http://127.0.0.1:5000", maxAge = 3600)
 @RestController
@@ -99,14 +95,19 @@ public class UserController {
     @PostMapping("/{userId}/update")
     public ResponseEntity<?> updateUser(@PathVariable(value="userId") Long userId, @RequestBody UserBodyDto userBodyDto){
         LOG.info("Enter method updateUser");
-        assertNotNull("Patient firstname must be not null", userBodyDto.getUsername());
 
-        UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> optionalUser = userService.findUserById(userId);
+        if (optionalUser.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        user.getUser().setUsername(userBodyDto.getUsername());
+        User user = optionalUser.get();
+        user.setUsername(userBodyDto.getUsername());
+        user.setStreet(userBodyDto.getStreet());
+        user.setPostalCode(userBodyDto.getPostalCode());
+        user.setLocality(userBodyDto.getLocality());
 
-        User userUpdated = userService.saveUser(user.getUser());
-
-        return new ResponseEntity<>(userDtoFactory.convert(userUpdated),HttpStatus.ACCEPTED);
+        User userUpdated = userService.saveUser(user);
+        return new ResponseEntity<>(userDtoFactory.convert(userUpdated), HttpStatus.ACCEPTED);
     }
 }
