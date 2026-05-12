@@ -4,16 +4,12 @@ import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
 import joachim.lejeune.peditrack.model.user.RegistrationKey;
 import joachim.lejeune.peditrack.repository.RegistrationKeyRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -30,19 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "/joachim.lejeune.peditrack/controller/create_base.sql"})
 public class UserControllerIT extends ApplicationControllerIT {
     @Autowired
-    private WebApplicationContext webApplicationContext;
-    private MockMvc mockMvc;
-    @Autowired
     private RegistrationKeyRepository registrationKeyRepository;
-
-
-    @BeforeEach
-    public void setup() {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-    }
 
     @Test
     void getUsers_shouldReturnListOfUsers() throws Exception {
+        authenticateAsAdmin();
 
         mockMvc.perform(get("/api/users/all"))
                 .andExpect(status().isAccepted())
@@ -51,9 +39,9 @@ public class UserControllerIT extends ApplicationControllerIT {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("admin")));
     }
+
     @Test
     void getUser_byId() throws Exception {
-
         mockMvc.perform(get("/api/users/1/info"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -64,10 +52,7 @@ public class UserControllerIT extends ApplicationControllerIT {
     @Test
     @Disabled
     void registerUser_shouldReturnOkWhenUserCreated() throws Exception {
-
         UserBodyDto userBodyDto = getUserBodyDto();
-
-        // Convertir en JSON
         String userJson = objectMapper.writeValueAsString(userBodyDto);
 
         List<RegistrationKey> all = registrationKeyRepository.findAll();
@@ -81,13 +66,12 @@ public class UserControllerIT extends ApplicationControllerIT {
 
     @Test
     void userAlreadyExist() throws Exception {
-        this.mockMvc.perform(get("/api/users/exist")
+        mockMvc.perform(get("/api/users/exist")
                         .contentType("application/json")
                         .param("email", "lejeunejoachim@hotmail.com")
                         .param("username", "admin"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", is(true)))
-        ;
+                .andExpect(jsonPath("$", is(true)));
     }
 
     private UserBodyDto getUserBodyDto() {

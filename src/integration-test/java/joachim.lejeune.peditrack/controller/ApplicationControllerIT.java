@@ -21,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @AutoConfigureMockMvc
 public class ApplicationControllerIT extends PeditrackApplicationIT {
@@ -55,9 +56,16 @@ public class ApplicationControllerIT extends PeditrackApplicationIT {
 
     }
 
+    protected void authenticateAsAdmin() {
+        User user = userRepository.getReferenceById(1L);
+        Collection<? extends GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ADMIN"));
+        UserDetailsImpl adminDetails = new UserDetailsImpl(1L, "admin", "lejeunejoachim@hotmail.com", "1234", authorities, new Point2D.Double(), user);
+        Authentication auth = new UsernamePasswordAuthenticationToken(adminDetails, null, adminDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
     @AfterEach
     void tearDown() {
-        // Nettoyage du SecurityContext après chaque test
         SecurityContextHolder.clearContext();
     }
 }
