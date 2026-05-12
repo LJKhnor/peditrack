@@ -126,4 +126,17 @@ public class User {
     public void setActivationCode(String activationCode) {
         this.activationCode = activationCode;
     }
+
+    public boolean hasCoordinates() {
+        return !(this.pointX == null || this.pointY == null);
+    }
+
+    public void setPoint(double x, double y) {
+        this.pointX = x;
+        this.pointY = y;
+    }
+
+    public String getAddress() {
+        return this.street + ", " + this.postalCode + ", " + this.locality;
+    }
 }

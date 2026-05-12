@@ -36,7 +36,9 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        String clientKey = request.getRemoteAddr() + ":" + loginRequest.getUsername();
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.isBlank()) ip = request.getRemoteAddr();
+        String clientKey = ip + ":" + loginRequest.getUsername();
 
         if (rateLimiter.isBlocked(clientKey)) {
             LOG.warn("Rate limit exceeded for: {}", loginRequest.getUsername());

@@ -49,6 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<UserDto> createUser(@RequestBody UserBodyDto userBodyDto) throws Exception {
         LOG.info("Enter method createUser");
         User user = userService.createUser(userBodyDto);
@@ -64,13 +65,22 @@ public class UserController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (UserAlreadyExistException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username or email already taken.");
         }
     }
 
     @GetMapping("/{userId}/info")
     public ResponseEntity<UserDto> getPatient(@PathVariable(value = "userId") Long userId) {
         LOG.info("Enter method getPatient");
+
+        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isAdmin = principal.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!userId.equals(principal.getId()) && !isAdmin) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Optional<User> optionalUser = userService.findUserById(userId);
         return optionalUser.map(user -> new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
