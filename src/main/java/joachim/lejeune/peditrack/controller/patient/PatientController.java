@@ -11,19 +11,15 @@ import joachim.lejeune.peditrack.model.patient.Health;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.service.HealthService;
 import joachim.lejeune.peditrack.service.PatientService;
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
 
 @RestController
 @RequestMapping("/api")
@@ -63,7 +59,13 @@ public class PatientController {
     public ResponseEntity<PatientRecordDto> getPatient(@PathVariable(value = "patientId") Long patientId) throws PatientNotFoundException, IOException {
         LOG.info("Enter method getPatient");
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Patient patient = patientService.getPatientById(patientId);
+
+        if (!patient.getUser().getId().equals(userDetails.getId())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Health lastHealth = patient.getLastHealth();
         PatientRecordDto patientRecordDto = new PatientRecordDto();
         patientRecordDto.setPatientDto(patientDtoFactory.convert(patient));
@@ -75,19 +77,23 @@ public class PatientController {
     @PostMapping("/patients")
     public ResponseEntity<PatientDto> createPatient(@RequestBody PatientBodyDto patientBodyDto) throws IOException {
         LOG.info("Enter method createPatient");
-        assertNotNull("Patient name must be not null",patientBodyDto.getName());
-        assertNotNull("Patient firstname must be not null", patientBodyDto.getFirstname());
+
+        if (patientBodyDto.getName() == null || patientBodyDto.getName().isBlank()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if (patientBodyDto.getFirstname() == null || patientBodyDto.getFirstname().isBlank()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
         UserDetailsImpl user = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Appel au service pour créer le patient en db
         Patient newPatient = patientService.createPatient(patientBodyDto, user);
         Health newHealth = healthService.createNewHealth(newPatient, patientBodyDto);
         newPatient.addHealthRecord(newHealth);
 
         PatientDto patientDto = patientDtoFactory.convert(newPatient);
 
-        return new ResponseEntity<>(patientDto,HttpStatus.CREATED);
+        return new ResponseEntity<>(patientDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/patients/{patientId}")
@@ -97,18 +103,18 @@ public class PatientController {
 
         LOG.info("Enter method updatePatient");
 
-        // Sauvegarder les modifications via le service
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Patient existing = patientService.getPatientById(patientId);
+
+        if (!existing.getUser().getId().equals(userDetails.getId())) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         Patient updatedPatient = patientService.updatePatient(patientId, patientBodyDto);
-        LOG.info("Patient inofs update for patient :", updatedPatient);
         Health health = healthService.createNewHealth(updatedPatient, patientBodyDto);
-        LOG.info("New health created : ", health);
         updatedPatient.addHealthRecord(health);
-        LOG.info("Health add to list of healths to patient : ", updatedPatient.getId());
 
-        // Conversion du patient mis à jour en DTO pour la réponse
         PatientDto responseDto = patientDtoFactory.convert(updatedPatient);
-
-        // Retourner une réponse avec le statut 200 (OK) et le patient mis à jour
-        return new ResponseEntity<>(responseDto,HttpStatus.OK);
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

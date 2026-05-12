@@ -2,6 +2,7 @@ package joachim.lejeune.peditrack.controller.user;
 
 import jakarta.validation.Valid;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
+import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.dto.UserDto;
 import joachim.lejeune.peditrack.dto.factory.UserDtoFactory;
 import joachim.lejeune.peditrack.exceptions.UserAlreadyExistException;
@@ -11,13 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://127.0.0.1:5000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -25,18 +27,13 @@ public class UserController {
     private final UserService userService;
     private final UserDtoFactory userDtoFactory;
 
-
     public UserController(UserService userService, UserDtoFactory userDtoFactory) {
         this.userService = userService;
         this.userDtoFactory = userDtoFactory;
     }
 
-    /**
-     * Get all the user
-     *
-     * @return a list of user
-     */
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserDto>> getUsers() {
         LOG.trace("Enter getUsers method");
         List<User> users = userService.findAllUser();
@@ -45,26 +42,12 @@ public class UserController {
                 .collect(Collectors.toList()), HttpStatus.ACCEPTED);
     }
 
-    /**
-     * Verify if the user already exist
-     *
-     * @param email    of the user
-     * @param username of the user
-     * @return boolean
-     */
     @GetMapping("/exist")
     public boolean userAlreadyExist(@RequestParam(value = "email") String email, @RequestParam(value = "username") String username) {
         LOG.trace("Enter method userAlreadyExist");
-
         return userService.findIfUserAlreadyExist(email, username);
     }
 
-    /**
-     * create a new user
-     *
-     * @param userBodyDto that provide info for the new user
-     * @return the response that contain the new user
-     */
     @PostMapping("/")
     public ResponseEntity<UserDto> createUser(@RequestBody UserBodyDto userBodyDto) throws Exception {
         LOG.info("Enter method createUser");
@@ -84,17 +67,26 @@ public class UserController {
             throw new RuntimeException(e);
         }
     }
-    @GetMapping("/{userId}/info")
-    public ResponseEntity<UserDto> getPatient(@PathVariable(value = "userId") Long userId){
-        LOG.info("Enter method getPatient");
-        Optional <User> optionalUser = userService.findUserById(userId);
 
+    @GetMapping("/{userId}/info")
+    public ResponseEntity<UserDto> getPatient(@PathVariable(value = "userId") Long userId) {
+        LOG.info("Enter method getPatient");
+        Optional<User> optionalUser = userService.findUserById(userId);
         return optionalUser.map(user -> new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        }
+    }
+
     @PostMapping("/{userId}/update")
-    public ResponseEntity<?> updateUser(@PathVariable(value="userId") Long userId, @RequestBody UserBodyDto userBodyDto){
+    public ResponseEntity<?> updateUser(@PathVariable(value = "userId") Long userId, @RequestBody UserBodyDto userBodyDto) {
         LOG.info("Enter method updateUser");
+
+        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isAdmin = principal.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!userId.equals(principal.getId()) && !isAdmin) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         Optional<User> optionalUser = userService.findUserById(userId);
         if (optionalUser.isEmpty()) {
