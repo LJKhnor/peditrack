@@ -1,50 +1,33 @@
 package joachim.lejeune.peditrack;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-@AutoConfigureMockMvc
 class UtilityTest {
 
-    @Disabled
     @Test
     void AdresseConverter_test() throws IOException {
-        // Arrange
-        String adresse = "chaussée de marche 250";
+        String adresse = "chaussée de marche 250 5100 jambes";
 
-        // Fake coordonnées pour test
-        double expectedX = 50.465;
-        double expectedY = 4.870;
-
-        // Act
         Point2D result = NominatimUtility.AddressConverter(adresse);
 
-        // Assert
-        assertEquals(expectedX, result.getX(),4.0);
-        assertEquals(expectedY, result.getY(),4.0);
+        // Coordinates for Jambes, Belgium (lat ~50.46, lon ~4.88)
+        assertEquals(50.465, result.getX(), 4.0);
+        assertEquals(4.870, result.getY(), 4.0);
     }
 
-    @Disabled
     @Test
-    void AddressConverter_WrongAddress() throws Exception{
-        String adresse = "chausée de arche 250";
+    void AddressConverter_WrongAddress() throws Exception {
+        String adresse = "XXXXXXXXXXX 999999 YYYYYYYYYYY";
 
-        // Fake coordonnées pour test
-        double expectedX = 0.0;
-        double expectedY = 0.0;
-
-        // Act
         Point2D result = NominatimUtility.AddressConverter(adresse);
 
-        // Assert
-        assertEquals(expectedX, result.getX(),4.0);
-        assertEquals(expectedY, result.getY(),4.0);
+        assertEquals(0.0, result.getX(), 0.0001);
+        assertEquals(0.0, result.getY(), 0.0001);
     }
-
 }

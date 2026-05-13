@@ -4,7 +4,6 @@ import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.ApplicationControllerIT;
 import joachim.lejeune.peditrack.model.user.RegistrationKey;
 import joachim.lejeune.peditrack.repository.RegistrationKeyRepository;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -50,7 +49,6 @@ public class UserControllerIT extends ApplicationControllerIT {
     }
 
     @Test
-    @Disabled
     void registerUser_shouldReturnOkWhenUserCreated() throws Exception {
         UserBodyDto userBodyDto = getUserBodyDto();
         String userJson = objectMapper.writeValueAsString(userBodyDto);

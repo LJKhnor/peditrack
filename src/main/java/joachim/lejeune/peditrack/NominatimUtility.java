@@ -32,7 +32,7 @@ public class NominatimUtility {
             JSONArray results = getResultAddressList(endpointUrl);
             double lat = 0.0;
             double lon = 0.0;
-            if (!results.isEmpty()){
+            if (results.length() > 0){
                 JSONObject firstResult = results.getJSONObject(0);
 
                 lat = firstResult.getDouble("lat");
