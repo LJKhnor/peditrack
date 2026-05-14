@@ -109,6 +109,9 @@ spring:
       register-mbeans: true
       maximum-pool-size: 8
 
+jwt:
+  expirationMs: 3600000
+
 logging:
   level:
     root: warn
