@@ -50,6 +50,7 @@ public class UserService{
         }
 
         final User user = userFactory.convert(userBodyDto, passwordEncoder);
+        registrationKey.ifPresent(key -> user.setActivationCode(key.getKey()));
 
         LOG.debug("Roles being saved: {}", user.getRole());
 
