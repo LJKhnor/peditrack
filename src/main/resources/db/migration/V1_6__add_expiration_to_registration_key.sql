@@ -1,2 +1,10 @@
+CREATE TABLE IF NOT EXISTS registration_key (
+    id          BIGSERIAL PRIMARY KEY,
+    key_value   VARCHAR(255)  NOT NULL UNIQUE,
+    is_used     BOOLEAN       NOT NULL DEFAULT FALSE,
+    is_active   BOOLEAN       NOT NULL DEFAULT TRUE,
+    expires_at  TIMESTAMP WITH TIME ZONE NULL
+);
+
 ALTER TABLE registration_key
     ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE NULL;
