@@ -39,6 +39,9 @@ public class User {
     @Column(name = "pointY")
     private Double pointY;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive = true;
+
     public Long getId() {
         return id;
     }
@@ -134,6 +137,14 @@ public class User {
     public void setPoint(double x, double y) {
         this.pointX = x;
         this.pointY = y;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getAddress() {

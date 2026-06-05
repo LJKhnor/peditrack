@@ -96,4 +96,11 @@ public class UserService{
     public void save(User user) {
         userRepository.save(user);
     }
+
+    public User setUserActive(Long userId, boolean active) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+        user.setActive(active);
+        return userRepository.save(user);
+    }
 }

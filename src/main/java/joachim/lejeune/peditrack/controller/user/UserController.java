@@ -112,4 +112,15 @@ public class UserController {
         User userUpdated = userService.saveUser(user);
         return new ResponseEntity<>(userDtoFactory.convert(userUpdated), HttpStatus.ACCEPTED);
     }
+
+    @PutMapping("/{userId}/active")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> setUserActive(@PathVariable Long userId, @RequestParam boolean active) {
+        try {
+            userService.setUserActive(userId, active);
+            return ResponseEntity.ok(active ? "User activated." : "User deactivated.");
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 }
