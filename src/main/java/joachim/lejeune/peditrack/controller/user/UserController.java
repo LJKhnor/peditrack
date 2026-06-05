@@ -1,6 +1,7 @@
 package joachim.lejeune.peditrack.controller.user;
 
 import jakarta.validation.Valid;
+import joachim.lejeune.peditrack.bodyDto.PasswordChangeDto;
 import joachim.lejeune.peditrack.bodyDto.UserBodyDto;
 import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.dto.UserDto;
@@ -111,6 +112,22 @@ public class UserController {
 
         User userUpdated = userService.saveUser(user);
         return new ResponseEntity<>(userDtoFactory.convert(userUpdated), HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{userId}/password")
+    public ResponseEntity<?> changePassword(@PathVariable Long userId, @Valid @RequestBody PasswordChangeDto dto) {
+        UserDetailsImpl principal = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean isAdmin = principal.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        if (!userId.equals(principal.getId()) && !isAdmin) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        try {
+            userService.changePassword(userId, dto.getCurrentPassword(), dto.getNewPassword());
+            return ResponseEntity.ok("Password updated successfully.");
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{userId}/active")
