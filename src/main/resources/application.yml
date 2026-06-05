@@ -59,6 +59,9 @@ jwt:
   secret: ${JWT_SECRET}
   expirationMs: 28000000
 
+cors:
+  allowed-origins: https://pedimed.ddns.net,https://pedimed-pro.be
+
 ---
 #################################################################
 #                              DEV                              #
@@ -69,6 +72,9 @@ spring:
       on-profile: dev
   application:
     name: pedimed-dev
+
+cors:
+  allowed-origins: http://localhost:5173,https://pedimed.ddns.net,https://pedimed-pro.be
   flyway:
     user: ${DB_USERNAME_DEV:postgres}
     password: ${DB_PASSWORD_DEV:postgres}
