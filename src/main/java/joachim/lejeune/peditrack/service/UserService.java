@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -97,6 +99,7 @@ public class UserService{
         userRepository.save(user);
     }
 
+    @Transactional
     public User setUserActive(Long userId, boolean active) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));

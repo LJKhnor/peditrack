@@ -40,7 +40,7 @@ public class User {
     private Double pointY;
 
     @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
+    private boolean active = true;
 
     public Long getId() {
         return id;
@@ -140,11 +140,11 @@ public class User {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        this.active = active;
     }
 
     public String getAddress() {
