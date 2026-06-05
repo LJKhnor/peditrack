@@ -3,6 +3,7 @@ package joachim.lejeune.peditrack.controller.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import joachim.lejeune.peditrack.model.user.JwtResponse;
 import joachim.lejeune.peditrack.model.user.LoginRequest;
+import joachim.lejeune.peditrack.service.LoginAuditService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,11 +28,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final LoginRateLimiter rateLimiter;
+    private final LoginAuditService loginAuditService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, LoginRateLimiter rateLimiter) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtils jwtUtils, LoginRateLimiter rateLimiter, LoginAuditService loginAuditService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
         this.rateLimiter = rateLimiter;
+        this.loginAuditService = loginAuditService;
     }
 
     @PostMapping("/signin")
@@ -41,7 +44,7 @@ public class AuthController {
         String clientKey = ip + ":" + loginRequest.getUsername();
 
         if (rateLimiter.isBlocked(clientKey)) {
-            LOG.warn("Rate limit exceeded for: {}", loginRequest.getUsername());
+            loginAuditService.record(loginRequest.getUsername(), ip, false, "RATE_LIMITED");
             return new ResponseEntity<>("Too many failed attempts. Try again later.", HttpStatus.TOO_MANY_REQUESTS);
         }
 
@@ -56,10 +59,11 @@ public class AuthController {
             List<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
             rateLimiter.recordSuccess(clientKey);
+            loginAuditService.record(loginRequest.getUsername(), ip, true, null);
             return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getId(), userDetails.getUsername(), userDetails.getLocation(), roles));
         } catch (Exception e) {
             rateLimiter.recordFailure(clientKey);
-            LOG.warn("Authentication failed for user: {}", loginRequest.getUsername());
+            loginAuditService.record(loginRequest.getUsername(), ip, false, "INVALID_CREDENTIALS");
             return new ResponseEntity<>("Invalid username or password.", HttpStatus.UNAUTHORIZED);
         }
     }
