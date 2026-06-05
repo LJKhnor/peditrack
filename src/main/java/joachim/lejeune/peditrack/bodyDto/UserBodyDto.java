@@ -2,7 +2,7 @@ package joachim.lejeune.peditrack.bodyDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import joachim.lejeune.peditrack.validation.ValidPassword;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public class UserBodyDto {
     @NotBlank
     private String mail;
     @NotBlank
-    @Size(min = 8, message = "Password must be at least 8 characters long")
+    @ValidPassword
     private String password;
     private List<String> roles;
     private String registrationKey;

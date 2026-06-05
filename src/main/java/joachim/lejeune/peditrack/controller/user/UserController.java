@@ -50,7 +50,7 @@ public class UserController {
 
     @PostMapping("/")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserBodyDto userBodyDto) throws Exception {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserBodyDto userBodyDto) throws Exception {
         LOG.info("Enter method createUser");
         User user = userService.createUser(userBodyDto);
         return new ResponseEntity<>(userDtoFactory.convert(user), HttpStatus.CREATED);

@@ -73,6 +73,6 @@ public class UserControllerIT extends ApplicationControllerIT {
     }
 
     private UserBodyDto getUserBodyDto() {
-        return new UserBodyDto("machin", "abcdefgh", "machin@truc.be", "AB12-CD34-EF56-GH78");
+        return new UserBodyDto("machin", "Abcdefg1!", "machin@truc.be", "AB12-CD34-EF56-GH78");
     }
 }
