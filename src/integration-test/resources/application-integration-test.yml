@@ -1,0 +1,2 @@
+jwt:
+  secret: integration-test-secret-only-for-tests-not-used-in-production-at-least-64-chars!
