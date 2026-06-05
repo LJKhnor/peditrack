@@ -2,6 +2,8 @@ package joachim.lejeune.peditrack.model.user;
 
 import jakarta.persistence.*;
 
+import java.time.OffsetDateTime;
+
 @Entity
 @Table(name="registration_key")
 public class RegistrationKey {
@@ -14,6 +16,9 @@ public class RegistrationKey {
     private boolean isUsed;
     @Column(name="is_active")
     private boolean isActive;
+
+    @Column(name = "expires_at")
+    private OffsetDateTime expiresAt;
 
     public RegistrationKey() {
     }
@@ -48,5 +53,17 @@ public class RegistrationKey {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public OffsetDateTime getExpiresAt() {
+        return expiresAt;
+    }
+
+    public void setExpiresAt(OffsetDateTime expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public boolean isExpired() {
+        return expiresAt != null && expiresAt.isBefore(OffsetDateTime.now());
     }
 }

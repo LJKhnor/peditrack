@@ -1,0 +1,2 @@
+ALTER TABLE registration_key
+    ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP WITH TIME ZONE NULL;

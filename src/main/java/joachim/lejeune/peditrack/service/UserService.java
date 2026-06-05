@@ -71,9 +71,9 @@ public class UserService{
             throw new IllegalArgumentException("Registration key format");
         }
         Optional<RegistrationKey> registrationKeyOptional = registrationKeyRepository.findByKey(activationKey)
-                .filter(k -> !k.isUsed() && k.isActive());
+                .filter(k -> !k.isUsed() && k.isActive() && !k.isExpired());
         registrationKeyOptional
-                .orElseThrow(() -> new IllegalArgumentException("Clé non autorisée ou déjà utilisée"));
+                .orElseThrow(() -> new IllegalArgumentException("Clé non autorisée, déjà utilisée ou expirée"));
         return registrationKeyOptional;
     }
 
