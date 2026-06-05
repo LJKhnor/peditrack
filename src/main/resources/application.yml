@@ -56,7 +56,7 @@ logging:
     org.springframework.orm.jpa: debug
     flywaydb: debug
 jwt:
-  secret: ${JWT_SECRET:dev-only-insecure-secret-change-for-prod-at-least-64-chars-long!}
+  secret: ${JWT_SECRET}
   expirationMs: 28000000
 
 ---
