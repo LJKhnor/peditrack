@@ -42,7 +42,7 @@ public class PatientController {
         LOG.info("Enter method getAllPatients");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        List<PatientDto> patientDtos = patientService.findByUser(userDetails.getUser())
+        List<PatientDto> patientDtos = patientService.findByUserId(userDetails.getId())
                 .stream()
                 .map(patient -> {
                     try {

@@ -32,7 +32,7 @@ public class DataController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        List<Patient> allPatients = patientService.findByUser(userDetails.getUser());
+        List<Patient> allPatients = patientService.findByUserId(userDetails.getId());
         List<Point2D> points2DSDto = new ArrayList<>();
 
         for(Patient patient: allPatients){

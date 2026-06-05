@@ -5,6 +5,7 @@ import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.model.user.User;
 import joachim.lejeune.peditrack.repository.PatientRepository;
+import joachim.lejeune.peditrack.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +23,9 @@ class PatientServiceTest {
 
     @Mock
     private PatientRepository patientRepository;
+
+    @Mock
+    private UserRepository userRepository;
 
     @InjectMocks
     private PatientService patientService;
@@ -41,7 +45,8 @@ class PatientServiceTest {
 
         UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
         User user = new User();
-        when(userDetails.getUser()).thenReturn(user);
+        when(userDetails.getId()).thenReturn(1L);
+        when(userRepository.getReferenceById(1L)).thenReturn(user);
 
         Patient savedPatient = new Patient();
         savedPatient.setName("John");
@@ -157,15 +162,15 @@ class PatientServiceTest {
     void shouldFindPatientsByUser() {
         // Arrange
         User user = new User();
-        when(patientRepository.findByUser(user)).thenReturn(List.of(new Patient(), new Patient()));
+        when(patientRepository.findByUserId(user.getId())).thenReturn(List.of(new Patient(), new Patient()));
 
         // Act
-        List<Patient> patients = patientService.findByUser(user);
+        List<Patient> patients = patientService.findByUserId(user.getId());
 
         // Assert
         assertNotNull(patients);
         assertEquals(2, patients.size());
-        verify(patientRepository, times(1)).findByUser(user);
+        verify(patientRepository, times(1)).findByUserId(user.getId());
     }
 
     @Test

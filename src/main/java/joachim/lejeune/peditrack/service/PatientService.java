@@ -5,6 +5,7 @@ import joachim.lejeune.peditrack.controller.auth.UserDetailsImpl;
 import joachim.lejeune.peditrack.model.patient.Patient;
 import joachim.lejeune.peditrack.model.user.User;
 import joachim.lejeune.peditrack.repository.PatientRepository;
+import joachim.lejeune.peditrack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class PatientService {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Creates a new patient in the system.
@@ -42,7 +46,7 @@ public class PatientService {
         patientBodyDto.getComments().ifPresent(patient::setComments);
         patientBodyDto.getAddress().ifPresent(patient::setAddress);
         patientBodyDto.getMutual().ifPresent(patient::setMutual);
-        patient.setUser(userDetails.getUser());
+        patient.setUser(userRepository.getReferenceById(userDetails.getId()));
 
         return patientRepository.save(patient);
     }
@@ -114,8 +118,8 @@ public class PatientService {
         }
     }
 
-    public List<Patient> findByUser(User user) {
-        return patientRepository.findByUser(user);
+    public List<Patient> findByUserId(Long userId) {
+        return patientRepository.findByUserId(userId);
     }
 
     public void save(Patient patient) {
