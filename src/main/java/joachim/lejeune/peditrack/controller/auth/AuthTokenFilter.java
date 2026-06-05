@@ -8,56 +8,53 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger LOG = LoggerFactory.getLogger(AuthTokenFilter.class);
-    @Autowired
-    private JwtUtils jwtUtils; // Classe pour gérer les opérations sur le JWT
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService; // Service pour charger les détails de l'utilisateur
+    private JwtUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        LOG.info("Enter doFilterInternal method");
         try {
             String path = request.getRequestURI();
-            // Ne pas filtrer pour les routes publiques
             if (path.startsWith("/api/auth/signin") || path.startsWith("/api/users/register")) {
-                LOG.info("Skipping JWT filter for: " + path);
                 filterChain.doFilter(request, response);
                 return;
             }
-            LOG.info("Processing JWT filter for: " + path);
-            // Récupère le JWT du header de la requête
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                // Si le JWT est valide, récupère le nom d'utilisateur du token
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
+                Long userId = jwtUtils.getUserIdFromJwtToken(jwt);
+                List<String> roles = jwtUtils.getRolesFromJwtToken(jwt);
 
-                // Charge les détails de l'utilisateur avec ce nom d'utilisateur
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                List<SimpleGrantedAuthority> authorities = roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
 
-                // Crée un objet d'authentification basé sur les détails de l'utilisateur
+                UserDetailsImpl userDetails = new UserDetailsImpl(userId, username, null, null, authorities, null, null);
+
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                // Définit l'authentification dans le contexte de sécurité
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            LOG.error("Cannot set user authentication: " + e.getMessage());
+            LOG.error("Cannot set user authentication: {}", e.getMessage());
         }
 
-        // Continue avec le reste de la chaîne de filtres
         filterChain.doFilter(request, response);
     }
     // Méthode pour extraire le JWT du header "Authorization"
